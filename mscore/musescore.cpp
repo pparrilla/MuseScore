@@ -32,6 +32,7 @@
 #include "debugger/debugger.h"
 #include "editstyle.h"
 #include "playpanel.h"
+#include "pianotutorpanel.h"
 #include "libmscore/page.h"
 #include "mixer.h"
 #include "selectionwindow.h"
@@ -993,6 +994,7 @@ MuseScore::MuseScore()
       metronomeAction = getAction("metronome");
       countInAction   = getAction("countin");
       panAction       = getAction("pan");
+      tutorAction     = getAction("toggle-pianotutor");
 
       _statusBar = new QStatusBar;
       _statusBar->addPermanentWidget(new QWidget(this), 2);
@@ -1172,6 +1174,7 @@ MuseScore::MuseScore()
       transportTools->addWidget(new AccessibleToolButton(transportTools, repeatAction));
       transportTools->addWidget(new AccessibleToolButton(transportTools, getAction("pan")));
       transportTools->addWidget(new AccessibleToolButton(transportTools, metronomeAction));
+      transportTools->addWidget(new AccessibleToolButton(transportTools, tutorAction));
 
       //-------------------------------
       //    Concert Pitch Tool Bar
@@ -1348,6 +1351,10 @@ MuseScore::MuseScore()
       a = getAction("toggle-piano");
       a->setCheckable(true);
       menuView->addAction(a);
+
+      tutorId = getAction("toggle-pianotutor");
+      tutorId->setCheckable(true);
+      menuView->addAction(tutorId);
 
       menuView->addSeparator();
       menuView->addAction(getAction("zoomin"));
@@ -2519,6 +2526,26 @@ void MuseScore::showPlayPanel(bool visible)
       playId->setChecked(visible);
       }
 
+
+//---------------------------------------------------------
+//   showPianoTutorPanel
+//---------------------------------------------------------
+
+void MuseScore::showPianoTutorPanel(bool visible)
+      {
+      if (noSeq || !(seq && seq->isRunning()))
+            return;
+      if (pianoTutorPanel == 0) {
+            if (!visible)
+                  return;
+            pianoTutorPanel = new PianoTutorPanel(this);
+            addDockWidget(Qt::LeftDockWidgetArea, pianoTutorPanel);
+	    pianoTutorPanel->setFloating(false);
+            }
+      pianoTutorPanel->setVisible(visible);
+      tutorId->setChecked(visible);
+      }
+
 //---------------------------------------------------------
 //   cmdAppendMeasures
 //---------------------------------------------------------
@@ -2647,6 +2674,9 @@ void MuseScore::midiNoteReceived(int channel, int pitch, int velo)
       static int active = 0;
       static int iterDrums = 0;
       static int activeDrums = 0;
+
+      if (seq)
+	seq->midiNoteReceived(channel, pitch, velo);
 
       if (!midiinEnabled())
             return;
@@ -5404,6 +5434,8 @@ void MuseScore::cmd(QAction* a, const QString& cmd)
 #endif
       else if (cmd == "toggle-playpanel")
             showPlayPanel(a->isChecked());
+      else if (cmd == "toggle-pianotutor")
+            showPianoTutorPanel(a->isChecked());
       else if (cmd == "toggle-navigator")
             showNavigator(a->isChecked());
       else if (cmd == "toggle-timeline")

@@ -1888,6 +1888,16 @@ Shortcut Shortcut::_sc[] = {
          },
       {
          MsWidget::MAIN_WINDOW,
+         STATE_NORMAL | STATE_NOTE_ENTRY | STATE_EDIT | STATE_PLAY,
+         "toggle-pianotutor",
+         QT_TRANSLATE_NOOP("action","Piano Tutor Panel"),
+         QT_TRANSLATE_NOOP("action","Piano tutor panel"),
+         0,
+         Icons::tutor_ICON,
+         Qt::ApplicationShortcut
+         },
+      {
+         MsWidget::MAIN_WINDOW,
          STATE_DISABLED | STATE_NORMAL | STATE_NOTE_ENTRY | STATE_EDIT | STATE_TEXT_EDIT | STATE_PLAY | STATE_FOTO,
          "quit",
          QT_TRANSLATE_NOOP("action","Quit")
@@ -2862,6 +2872,39 @@ Shortcut Shortcut::_sc[] = {
          QT_TRANSLATE_NOOP("action","Toggle 'Count-In' playback"),
          QT_TRANSLATE_NOOP("action","Play count-in at playback start"),
          Icons::countin_ICON,
+         Qt::WindowShortcut,
+         ShortcutFlags::A_CHECKABLE
+         },
+      {
+         MsWidget::MAIN_WINDOW,
+         STATE_NORMAL | STATE_NOTE_ENTRY | STATE_PLAY | STATE_EDIT ,
+         "tutor",
+         QT_TRANSLATE_NOOP("action","Tutor"),
+         QT_TRANSLATE_NOOP("action","Toggle tutor playback"),
+         QT_TRANSLATE_NOOP("action","Play tutor during playback"),
+         Icons::tutor_ICON,
+         Qt::WindowShortcut,
+         ShortcutFlags::A_CHECKABLE
+         },
+      {
+         MsWidget::MAIN_WINDOW,
+         STATE_NORMAL | STATE_NOTE_ENTRY | STATE_PLAY | STATE_EDIT ,
+         "tutor-wait",
+         QT_TRANSLATE_NOOP("action","TutorWait"),
+         QT_TRANSLATE_NOOP("action","Wait for player during tutor playback"),
+         QT_TRANSLATE_NOOP("action","Wait for player during tutor playback"),
+         Icons::tutorWait_ICON,
+         Qt::WindowShortcut,
+         ShortcutFlags::A_CHECKABLE
+         },
+      {
+         MsWidget::MAIN_WINDOW,
+         STATE_NORMAL | STATE_NOTE_ENTRY | STATE_PLAY | STATE_EDIT ,
+         "tutor-look-ahead",
+         QT_TRANSLATE_NOOP("action","TutorLooAhead"),
+         QT_TRANSLATE_NOOP("action","Show future notes during tutor playback"),
+         QT_TRANSLATE_NOOP("action","Show future notes during tutor playback"),
+         Icons::tutorLookAhead_ICON,
          Qt::WindowShortcut,
          ShortcutFlags::A_CHECKABLE
          },

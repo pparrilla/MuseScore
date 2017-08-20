@@ -27,6 +27,8 @@
 #include "driver.h"
 #include "libmscore/fifo.h"
 #include "libmscore/tempo.h"
+#include "tutor.h"
+#include "musescore.h"
 
 class QTimer;
 
@@ -169,6 +171,11 @@ class Seq : public QObject, public Sequencer {
       void updateSynthesizerState(int tick1, int tick2);
       void addCountInClicks();
 
+      Tutor *tutor() {  return mscore->getPianoTutorPanel() ?
+			       &mscore->getPianoTutorPanel()->tutor() : 0;  }
+      void tutorFutureEvents(EventMap::const_iterator it, EventMap::const_iterator it_end,
+			     unsigned framesPerPeriod);
+
       inline QQueue<NPlayEvent>* liveEventQueue() { return &_liveEventQueue; }
 
    private slots:
@@ -255,6 +262,8 @@ class Seq : public QObject, public Sequencer {
 
       void setInitialMillisecondTimestampWithLatency();
       unsigned getCurrentMillisecondTimestampWithLatency(unsigned framePos) const;
+
+      void midiNoteReceived(int channel, int pitch, int velo);
       };
 
 extern Seq* seq;

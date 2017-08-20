@@ -48,6 +48,8 @@
 
 #include <vorbis/vorbisfile.h>
 
+#include <time.h>
+
 #ifdef USE_PORTMIDI
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
   #include "portmidi/porttime/porttime.h"
@@ -64,6 +66,8 @@ static const int guiRefresh   = 10;       // Hz
 static const int peakHoldTime = 1400;     // msec
 static const int peakHold     = (peakHoldTime * guiRefresh) / 1000;
 static OggVorbis_File vf;
+
+static long lastPlayedNoteOnUTick = -1;
 
 #if 0 // yet(?) unused
 static const int AUDIO_BUFFER_SIZE = 1024 * 512;  // 2 MB
@@ -520,8 +524,13 @@ void Seq::playEvent(const NPlayEvent& event, unsigned framePos)
                   const Channel* a = instr->channel(note->subchannel());
                   mute = a->mute || a->soloMute || !staff->playbackVoice(note->voice());
                   }
-            if (!mute)
-                  putEvent(event, framePos);
+            if (!mute) {
+		putEvent(event, framePos);
+		if (mscore->tutorEnabled()) {
+		  qDebug("Adding event: pitch=%d, velo=%d, ch=%d\n", event.pitch(), event.velo(), event.channel());
+		  tutor()->addKey(event.pitch(), event.velo(), event.channel());
+		  }
+	        }
             }
       else if (type == ME_CONTROLLER || type == ME_PITCHBEND)
             putEvent(event, framePos);
@@ -660,6 +669,50 @@ void Seq::addCountInClicks()
       countInPlayFrame = 0;
       }
 
+void Seq::tutorFutureEvents(EventMap::const_iterator it, EventMap::const_iterator it_end, unsigned framesPerPeriod)
+{
+  int i = 32;	// max number of events we're going through for look-ahead key presses
+  int endFrame = -1;
+  struct timespec ts_beg, ts_end;
+  clock_gettime(CLOCK_REALTIME, &ts_beg);
+  while (it != it_end && i-- > 0) {
+    int playPosUTick = it->first;
+    if (mscore->loop()) {
+      int loopOutUTick = cs->repeatList()->tick2utick(cs->loopOutTick());
+      qDebug("playUTick: %d, loopOut: %d\n", playPosUTick, loopOutUTick);
+      if (playPosUTick >= loopOutUTick)
+	break;
+    }
+    qreal playPosSeconds = cs->utick2utime(playPosUTick);
+    int playPosFrame = playPosSeconds * MScore::sampleRate;
+    //qDebug("endFrame: %d, playPosFrame: %d\n", endFrame, playPosFrame);
+    if (endFrame != -1 && playPosFrame > endFrame)
+      break;
+    const NPlayEvent& event = it->second;
+    int type = event.type();
+    if (type == ME_NOTEON) {
+      bool mute = false;
+      const Note* note = event.note();
+
+      if (note) {
+	Staff* staff      = note->staff();
+	Instrument* instr = staff->part()->instrument(note->chord()->tick());
+	const Channel* a = instr->channel(note->subchannel());
+	mute = a->mute || a->soloMute || !staff->playbackVoice(note->voice());
+      }
+      if (!mute && event.velo() > 0) {
+	//qDebug("Adding future event: pitch=%d, velo=%d, ch=%d\n", event.pitch(), event.velo(), event.channel());
+	tutor()->addKey(event.pitch(), event.velo(), event.channel(), 1);
+	if (endFrame == -1)
+	  endFrame = playPosFrame + framesPerPeriod;
+      }
+    }
+    ++it;
+  }
+  clock_gettime(CLOCK_REALTIME, &ts_end);
+  //qDebug("elapsed: %ld us\n", (ts_end.tv_sec - ts_beg.tv_sec) * 1000000 + (ts_end.tv_nsec - ts_beg.tv_nsec) / 1000);
+}
+
 //-------------------------------------------------------------------
 //   process
 //    This function is called in a realtime context. This
@@ -678,6 +731,8 @@ void Seq::process(unsigned framesPerPeriod, float* buffer)
       if (driverState != state) {
             // Got a message from JACK Transport panel: Play
             if (state == Transport::STOP && driverState == Transport::PLAY) {
+                  if (mscore->tutorEnabled())
+		        tutor()->clearKeys();
                   if ((preferences.getBool(PREF_IO_JACK_USEJACKMIDI) || preferences.getBool(PREF_IO_JACK_USEJACKAUDIO)) && !getAction("play")->isChecked()) {
                         // Do not play while editing elements
                         if (mscore->state() != STATE_NORMAL || !isRunning() || !canStart())
@@ -716,6 +771,8 @@ void Seq::process(unsigned framesPerPeriod, float* buffer)
             // Got a message from JACK Transport panel: Stop
             else if (state == Transport::PLAY && driverState == Transport::STOP) {
                   state = Transport::STOP;
+		  if (mscore->tutorEnabled())
+		    tutor()->clearKeys();
                   // Muting all notes
                   stopNotes(-1, true);
                   initInstruments(true);
@@ -765,6 +822,15 @@ void Seq::process(unsigned framesPerPeriod, float* buffer)
             unsigned framePos = 0; // frame currently being processed relative to the first frame of this call to Seq::process
             int periodEndFrame = *pPlayFrame + framesPerPeriod; // the ending frame (relative to start of playback) of the period being processed by this call to Seq::process
             int scoreEndUTick = cs->repeatList()->tick2utick(cs->lastMeasure()->endTick());
+	    //qDebug("size(): %d\n", tutor()->size());
+	    if (mscore->tutorEnabled() && mscore->tutorWait() && tutor()->size() > 0) {
+	      if (framesRemain && cs->playMode() == PlayMode::SYNTHESIZER) {
+		//metronome(framesRemain, p, inCountIn);
+		_synti->process(framesRemain, p);
+		tutor()->flush();
+		return;
+	      }
+	    }
             while (*pPlayPos != pEvents->cend()) {
                   int playPosUTick = (*pPlayPos)->first;
                   int n; // current frame (relative to start of playback) that is being synthesized
@@ -810,6 +876,8 @@ void Seq::process(unsigned framesPerPeriod, float* buffer)
                                           else {
                                                 emit toGui('3');
                                                 }
+					  if (mscore->tutorEnabled())
+					        tutor()->flush();
                                           // Exit this function to avoid segmentation fault in Scoreview
                                           return;
                                           }
@@ -845,6 +913,8 @@ void Seq::process(unsigned framesPerPeriod, float* buffer)
                         }
                   const NPlayEvent& event = (*pPlayPos)->second;
                   playEvent(event, framePos);
+		  if (event.type() == ME_NOTEON)
+		    lastPlayedNoteOnUTick = (*pPlayPos)->first;
                   if (event.type() == ME_TICK1) {
                         tickRemain = tickLength;
                         tickVolume = event.velo() ? qreal(event.value()) / 127.0 : 1.0;
@@ -896,7 +966,12 @@ void Seq::process(unsigned framesPerPeriod, float* buffer)
                         }
                   else
                         _driver->stopTransport();
-                  }
+	          }
+	    if (mscore->tutorEnabled()) {
+	      if (mscore->tutorLookAhead())
+		tutorFutureEvents(*pPlayPos, pEvents->cend(), framesPerPeriod);
+	      tutor()->flush();
+              }
             }
       else {
             // Outside of playback mode
@@ -1357,6 +1432,30 @@ void Seq::midiInputReady()
             _driver->midiRead();
       }
 
+void Seq::midiNoteReceived(int channel, int pitch, int velo) {
+  qDebug("Got MIDI event: ch=%d, pitch=%d, vel=%d\n", channel, pitch, velo);
+  PianoTutorPanel *ptp = mscore->getPianoTutorPanel();
+  if (ptp)
+    ptp->midiNoteReceived(channel, pitch, velo);
+  if (!mscore->tutorEnabled() || velo == 0)
+    return;
+  int future = tutor()->keyPressed(pitch, velo);
+  if (future > 0) {
+    // speed-up execution jumping to future event playPos
+    qDebug("Speeding up...\n");
+    for (auto it = playPos; it != events.end(); ++it) {
+      const NPlayEvent& event = it->second;
+      if (event.type() == ME_NOTEON && event.pitch() == pitch && event.velo() > 0) {
+	if (it->first > playPos->first) {
+	  qDebug("Seeking to %d\n", it->first);
+	  seek(it->first);
+	}
+	break;
+      }
+    }
+  }
+}
+
 //---------------------------------------------------------
 //   SeqMsgFifo
 //---------------------------------------------------------
@@ -1561,14 +1660,18 @@ double Seq::curTempo() const
 void Seq::setLoopIn()
       {
       int tick;
-      if (state == Transport::PLAY) {      // If in playback mode, set the In position where note is being played
+      if (state == Transport::PLAY && lastPlayedNoteOnUTick != -1) {
+            tick = cs->repeatList()->utick2tick(lastPlayedNoteOnUTick);
+            }
+      else if (state == Transport::PLAY) {      // If in playback mode, set the In position where note is being played
             auto ppos = playPos;
             if (ppos != events.cbegin())
                   --ppos;                 // We have to go back one pos to get the correct note that has just been played
             tick = cs->repeatList()->utick2tick(ppos->first);
             }
-      else
+      else {
             tick = cs->pos();             // Otherwise, use the selected note.
+            }
       if (tick >= cs->loopOutTick())   // If In pos >= Out pos, reset Out pos to end of score
             cs->setPos(POS::RIGHT, cs->lastMeasure()->endTick());
       cs->setPos(POS::LEFT, tick);

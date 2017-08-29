@@ -2512,6 +2512,7 @@ void MuseScore::showPlayPanel(bool visible)
             playPanel->setGain(synti->gain());
             playPanel->setScore(cs);
             addDockWidget(Qt::RightDockWidgetArea, playPanel);
+            mscore->stackUnder(playPanel);
             }
       playPanel->setVisible(visible);
       playPanel->setFloating(false);

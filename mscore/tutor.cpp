@@ -22,19 +22,76 @@
 #include "tutor.h"
 
 #include <stdio.h>
-#include <termios.h>
 #include <time.h>
 #include <assert.h>
 
+#ifdef WIN32
+#include <windows.h>
+#define INVALID_SERIAL ((int) INVALID_HANDLE_VALUE)
+#else
+#include <termios.h>
+#define INVALID_SERIAL -1
+#endif
+
+#ifdef WIN32
+static const char *DEFAULT_SERIAL_DEVICE="COM0";
+#else
 static const char *DEFAULT_SERIAL_DEVICE="/dev/ttyACM0";
+#endif
 
 int def_colors[2][3] = {
   { 16, 0, 16},
   { 0, 16, 16}
 };
 
+/* Cross-OS Win32 / Linux functions - BEGIN */
+
+static void MILLI_SLEEP(unsigned int ms) {
+#ifdef WIN32
+  Sleep(ms);
+#else
+  usleep(ms * 1000);
+#endif
+}
+
+void CLOSE(int fd) {
+#ifdef WIN32
+  CloseHandle((HANDLE)fd);
+#else
+  close(fd);
+#endif
+}
+
+ssize_t WRITE(int fd, void *buf, size_t count) {
+#ifdef WIN32
+  DWORD len;
+  if (WriteFile((HANDLE)fd, buf, count, &len, NULL) == 0) {
+    printf("WriteFile() failed!\n");
+    return -1;
+  }
+  return len;
+#else
+  return write(fd, buf, count);
+#endif
+}
+
+ssize_t READ(int fd, void *buf, size_t count) {
+#ifdef WIN32
+  DWORD len;
+  if (ReadFile((HANDLE)fd, buf, count, &len, NULL) == 0) {
+    printf("ReadFile() failed!\n");
+    return -1;
+  }
+  return len;
+#else
+  return read(fd, buf, count);
+#endif
+}
+
+/* Cross-OS functions - END */
+
 Tutor::Tutor() : serialDevice(DEFAULT_SERIAL_DEVICE),
-                 tutorSerial(-1), num_curr_events(0),
+                 tutorSerial(INVALID_SERIAL), num_curr_events(0),
 		 c4light(71), coeff(-2.0),
 		 needs_flush(false)
 {
@@ -46,48 +103,81 @@ Tutor::Tutor() : serialDevice(DEFAULT_SERIAL_DEVICE),
   last_flushed_ts = (struct timespec) { 0, 0 };
 }
 
+#ifdef WIN32
 bool Tutor::checkSerial() {
-  if (tutorSerial > 0)
+  if (tutorSerial != INVALID_SERIAL)
     return true;
-  if (tutorSerial < 0) {
-    tutorSerial = open(DEFAULT_SERIAL_DEVICE, O_RDWR | O_NOCTTY);
-    if (tutorSerial > 0) {
-      termios tio;
-      if (tcgetattr(tutorSerial, &tio) < 0) {
-	perror("tcgetattr() failed: ");
-	return false;
-      }
-      tio.c_cflag &= ~(CSIZE | PARENB | CSTOPB | CRTSCTS);
-      tio.c_cflag |= CS8 | CREAD | CLOCAL;
-      tio.c_iflag &= ~(IXON | IXOFF | IXANY);
-      tio.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
-      tio.c_oflag = 0;
-      if (cfsetispeed(&tio, B115200) < 0 || cfsetospeed(&tio, B115200) < 0) {
-	perror("cfsetXspeed() failed: ");
-	return false;
-      }
-      tcsetattr(tutorSerial, TCSANOW, &tio);
-      if (tcsetattr(tutorSerial, TCSAFLUSH, &tio) < 0) {
-	perror("tcsetattr() failed: ");
-	return false;
-      }
-      // Waiting for "PianoTutor v1.0 is ready!" string
-      int to_read = 25;
-      while (to_read > 0) {
-	char ch;
-	int len = read(tutorSerial, &ch, 1);
-	if (len < 0) {
-	  perror("read() failed: ");
-	  return false;
-	}
-	to_read -= len;
-      }
-      usleep(10000);
-      return true;
-    }
+
+  tutorSerial = (int) CreateFile(serialDevice.c_str(), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
+  if (tutorSerial == INVALID_SERIAL)
+    return false;
+  DCB config;
+  if (GetCommState((HANDLE)tutorSerial, &config) == 0) {
+    printf("GetCommState() failed\n");
+    return false;
   }
-  return false;
+  config.BaudRate = 115200;
+  if (SetCommState((HANDLE)tutorSerial, &config) == 0) {
+    printf("SetCommState() failed\n");
+    return false;
+  }
+  // Waiting for "PianoTutor v1.0 is ready!" string
+  int to_read = 25;
+  while (to_read > 0) {
+    char ch;
+    int len = READ(tutorSerial, &ch, 1);
+    if (len < 0) {
+      perror("read() failed: ");
+      return false;
+    }
+    to_read -= len;
+  }
+  MILLI_SLEEP(10);
+  return true;
 }
+#else
+bool Tutor::checkSerial() {
+  if (tutorSerial != INVALID_SERIAL)
+    return true;
+
+  tutorSerial = open(serialDevice.c_str(), O_RDWR | O_NOCTTY);
+  if (tutorSerial == INVALID_SERIAL)
+    return false;
+
+  termios tio;
+  if (tcgetattr(tutorSerial, &tio) < 0) {
+    perror("tcgetattr() failed: ");
+    return false;
+  }
+  tio.c_cflag &= ~(CSIZE | PARENB | CSTOPB | CRTSCTS);
+  tio.c_cflag |= CS8 | CREAD | CLOCAL;
+  tio.c_iflag &= ~(IXON | IXOFF | IXANY);
+  tio.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
+  tio.c_oflag = 0;
+  if (cfsetispeed(&tio, B115200) < 0 || cfsetospeed(&tio, B115200) < 0) {
+    perror("cfsetXspeed() failed: ");
+    return false;
+  }
+  tcsetattr(tutorSerial, TCSANOW, &tio);
+  if (tcsetattr(tutorSerial, TCSAFLUSH, &tio) < 0) {
+    perror("tcsetattr() failed: ");
+    return false;
+  }
+  // Waiting for "PianoTutor v1.0 is ready!" string
+  int to_read = 25;
+  while (to_read > 0) {
+    char ch;
+    int len = READ(tutorSerial, &ch, 1);
+    if (len < 0) {
+      perror("read() failed: ");
+      return false;
+    }
+    to_read -= len;
+  }
+  MILLI_SLEEP(10);
+  return true;
+}
+#endif
 
 void Tutor::safe_write(char *data, int len, bool flush_op) {
   assert(!mtx.try_lock());
@@ -110,12 +200,12 @@ void Tutor::safe_write(char *data, int len, bool flush_op) {
   int retry = 2;
   data[len] = '\0';
   while (len > 0) {
-    int written = write(tutorSerial, data, len);
+    int written = WRITE(tutorSerial, data, len);
     printf("Written %d bytes (len=%d): %s\n", written, len, data);
     if (written < 0) {
       perror("write() failed!");
-      close(tutorSerial);
-      tutorSerial = -1;
+      CLOSE(tutorSerial);
+      tutorSerial = INVALID_SERIAL;
       if (retry-- > 0) {
 	checkSerial();
 	continue;
@@ -272,7 +362,6 @@ void Tutor::clearKeys() {
       notes[i].velo = -1;
     num_curr_events = 0;
   } while (false);
-  //usleep(10000);
 }
 
 void Tutor::flush() {
@@ -312,7 +401,6 @@ int Tutor::keyPressed(int pitch, int velo) {
       break;
     }
   } while (false);
-  //usleep(10000);
   return rv;
 }
 
@@ -322,9 +410,9 @@ size_t Tutor::size() {
 }
 
 void Tutor::setSerialDevice(const std::string & s) {
-  if (tutorSerial != -1)
-    close(tutorSerial);
-  tutorSerial = -1;
+  if (tutorSerial != INVALID_SERIAL)
+    CLOSE(tutorSerial);
+  tutorSerial = INVALID_SERIAL;
   serialDevice = s;
 }
 

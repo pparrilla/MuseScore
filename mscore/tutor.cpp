@@ -109,8 +109,10 @@ bool Tutor::checkSerial() {
     return true;
 
   tutorSerial = (int) CreateFile(serialDevice.c_str(), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
-  if (tutorSerial == INVALID_SERIAL)
+  if (tutorSerial == INVALID_SERIAL) {
+    printf("CreateFile() failed: serialDevice=%s\n", serialDevice.c_str());
     return false;
+  }
   DCB config;
   if (GetCommState((HANDLE)tutorSerial, &config) == 0) {
     printf("GetCommState() failed\n");

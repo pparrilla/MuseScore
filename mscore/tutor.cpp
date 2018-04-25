@@ -141,8 +141,10 @@ bool Tutor::checkSerial() {
     return true;
 
   tutorSerial = open(serialDevice.c_str(), O_RDWR | O_NOCTTY);
-  if (tutorSerial == INVALID_SERIAL)
+  if (tutorSerial == INVALID_SERIAL) {
+    printf("open() failed: serialDevice=%s\n", serialDevice.c_str());
     return false;
+  }
 
   termios tio;
   if (tcgetattr(tutorSerial, &tio) < 0) {

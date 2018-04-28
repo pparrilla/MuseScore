@@ -101,6 +101,28 @@ bool Port::operator<(const Port& p) const
 #include "alsa.h"
 #include "alsamidi.h"
 
+// The following is a Debian-specific hack which is likely to
+// not work forever, but needed right now: on kfreebsd and hurd,
+// we do not have ALSA but OSS provides the salsa compatibility
+// layer, which currently lacks a single, trivial function. We
+// need to distinguish salsa from ALSA (hard because the former
+// use, in Debian, the latter’s includes); one hackish way is
+// to use the reported library version as salsa still reports
+// version 1.0.5 whereas ALSA is much newer. Just inline the
+// function if the ALSA version is too old (this may also catch
+// on Linux, but even wheezy has 1.0.25, so we don’t care).
+// This is now https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=870787
+#if (SND_LIB_MAJOR < 2) && (SND_LIB_MINOR < 1) && (SND_LIB_SUBMINOR < 6)
+#define snd_seq_event_length(ev) __extension__({		\
+	ssize_t snd_seq_event_length__len;			\
+								\
+	snd_seq_event_length__len = sizeof(snd_seq_event_t);	\
+	if (snd_seq_ev_is_variable(ev))				\
+		snd_seq_event_length__len += ev->data.ext.len;	\
+	(len);							\
+})
+#endif
+
 namespace Ms {
 static const unsigned int inCap  = SND_SEQ_PORT_CAP_SUBS_READ;
 static const unsigned int outCap = SND_SEQ_PORT_CAP_SUBS_WRITE;
@@ -532,11 +554,11 @@ void AlsaMidiDriver::write(const Event& e)
 
 bool AlsaMidiDriver::putEvent(snd_seq_event_t* event)
       {
-      int error;
+      ssize_t error;
 
       do {
             error   = snd_seq_event_output_direct(alsaSeq, event);
-            int len = snd_seq_event_length(event);
+            ssize_t len = snd_seq_event_length(event);
             if (error == len) {
                   return false;
                   }
@@ -551,7 +573,7 @@ bool AlsaMidiDriver::putEvent(snd_seq_event_t* event)
                         }
                   }
             else
-                  qDebug("MidiAlsaDevice::putEvent(): midi write returns %d, expected %d: %s",
+                  qDebug("MidiAlsaDevice::putEvent(): midi write returns %zd, expected %zd: %s",
                      error, len, snd_strerror(error));
             } while (error == -12);
       return true;

@@ -1,0 +1,9 @@
+musescore for Debian
+********************
+
+  usr/share/mscore is versioned (ie usr/share/mscore-0.7), as upstream
+  said he wants to make it possible for other users, not necessarily
+  ours, to install more than one version concurrently for testing. Some
+  files there are version specific, so he versions /usr/share/mscore.
+
+ -- Toby Smithe <tsmithe@ubuntu.com>

@@ -1,0 +1,33 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+export DEB_BUILD_MAINT_OPTIONS := hardening=+all
+export DEB_LDFLAGS_MAINT_APPEND := -Wl,--as-needed
+
+SUFF=-pt0.2
+
+%:
+	dh $@ --buildsystem=cmake --parallel
+
+override_dh_auto_configure:
+	dh_auto_configure -- \
+	    -DCMAKE_SKIP_RPATH=ON \
+	    -DUSE_SYSTEM_FREETYPE=ON \
+	    -DCMAKE_INSTALL_PREFIX=/opt \
+	    -DMSCORE_INSTALL_SUFFIX=$(SUFF)
+
+override_dh_auto_build:
+	dh_auto_build -- lrelease all
+
+override_dh_install-indep:
+	dh_install
+	cd $(CURDIR)/debian/musescore-pt-common/opt/share && ln -s mscore-* mscore$(SUFF)
+
+.PHONY: get-orig-source
+## Usage: debian/rules get-orig-source
+## Based on: http://wiki.debian.org/onlyjob/get-orig-source
+get-orig-source: PKG_DIR:=$(abspath $(dir $(MAKEFILE_LIST)))
+get-orig-source:
+	# Simply call uscan (changes for DFSG done in debian/watch and debian/repack)
+	uscan --noconf --verbose --destdir=$(CURDIR) \
+	  --check-dirname-level=0 --force-download $(PKG_DIR)

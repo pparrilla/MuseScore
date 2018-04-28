@@ -1,0 +1,26 @@
+  IMPORTING NEW UPSTREAM RELEASES:
+  Upstream tracks bugs against the Git short commit number (first 7 digits of
+  upstream commit SHA). This is the "revision" displayed in MuseScore's Help ->
+  About dialog. This number is stored in the file mscore/revision.h and must be
+  set in the upstream code *after* importing a new upstream version. This is
+  done automatically if the new version is imported via `gbp import-orig`,
+  `uscan` or `debian/rules get-orig-source`. The easiest way to update is:
+
+    $ gbp import-orig --uscan
+
+  What this command does:
+
+   1) Checks debian/gbp.conf for various options, then calls `uscan`.
+
+   2) 'uscan' fetches the upstream tarball, removes files listed under
+      "Files-Excluded" in debian/copyright, and then runs debian/repack.
+
+   3) debian/repack checks for DFSG compliance and sets the revision number.
+
+   4) gbp unpacks the tarball, updates debian/changelog, commits the changes.
+
+  If you don't have gbp just run 'uscan --verbose', then delete everything in
+  the repo (except for the "debian" and ".git" directories) and then unpack the
+  dfsg tarball into the repo. Update the changelog. Commit the changes.
+
+ -- Peter Jonas <pjonas56@gmail.com>

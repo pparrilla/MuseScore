@@ -1,0 +1,83 @@
+Source: musescore
+Section: sound
+Priority: optional
+Maintainer: Debian Multimedia Maintainers <pkg-multimedia-maintainers@lists.alioth.debian.org>
+Uploaders: Toby Smithe <tsmithe@ubuntu.com>,
+           Tiago Bortoletto Vaz <tiago@debian.org>
+Build-Depends: cmake,
+               debhelper (>= 9),
+               libasound2-dev,
+               libfreetype6-dev (>= 2.5.2),
+               libjack-dev,
+               libmp3lame-dev,
+               libpulse-dev,
+               libqt5svg5-dev,
+               libqt5webkit5-dev,
+               libqt5xmlpatterns5-dev,
+               libsndfile1-dev (>= 1.0.25),
+               portaudio19-dev,
+               qtbase5-dev,
+               qtdeclarative5-dev (>= 5.3),
+               qtscript5-dev,
+               qttools5-dev,
+               qttools5-dev-tools,
+               zlib1g-dev
+Standards-Version: 3.9.8
+Homepage: http://www.musescore.org/
+Vcs-Git: https://anonscm.debian.org/git/pkg-multimedia/musescore.git
+Vcs-Browser: https://anonscm.debian.org/cgit/pkg-multimedia/musescore.git
+
+Package: musescore-pt
+Architecture: any
+Provides: mscore-pt
+Depends: desktop-file-utils,
+         libqt5sql5-sqlite,
+         musescore-pt-common (= ${source:Version}),
+         qml-module-qtquick-controls,
+         qml-module-qtquick-dialogs,
+         qml-module-qtquick-layouts,
+         qml-module-qtquick2,
+         shared-mime-info,
+         xdg-utils,
+         ${misc:Depends},
+         ${shlibs:Depends}
+Recommends: pulseaudio-utils
+Suggests: fluid-soundfont-gm, timgm6mb-soundfont
+Description: Free music composition and notation software
+ MuseScore is a free WYSIWYG music score typesetter for Linux,
+ licenced under GNU GPL. Features:
+  - WYSIWYG, notes are entered on a "virtual note sheet"
+  - Unlimited score length
+  - Unlimited number of staves per system
+  - Up to four independent voices per staff
+  - easy and fast note entry with mouse, keyboard or midi
+  - integrated sequencer and FluidSynth software synthesizer
+  - import and export of MusicXml and standard midifiles (SMF)
+  - platform independent code for Linux, Windows and Mac
+  - Automatic part extraction and transposition
+  - Chord symbols
+  - Swing and shuffle playback
+  - and much more...
+
+Package: musescore-pt-common
+Architecture: all
+Depends: ${misc:Depends}
+Provides: mscore-pt-common
+Description: Free music composition and notation software (common files)
+ MuseScore is a free WYSIWYG music score typesetter for Linux,
+ licenced under GNU GPL. Features:
+  - WYSIWYG, notes are entered on a "virtual note sheet"
+  - Unlimited score length
+  - Unlimited number of staves per system
+  - Up to four independent voices per staff
+  - easy and fast note entry with mouse, keyboard or midi
+  - integrated sequencer and FluidSynth software synthesizer
+  - import and export of MusicXml and standard midifiles (SMF)
+  - platform independent code for Linux, Windows and Mac
+  - Automatic part extraction and transposition
+  - Chord symbols
+  - Swing and shuffle playback
+  - and much more...
+ .
+ This package provides some files used by MuseScore, including demo
+ scores, styles, templates, localisations, and some plugins.

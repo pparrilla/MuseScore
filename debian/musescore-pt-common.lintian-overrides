@@ -1,0 +1,10 @@
+# deliberate, this is a music notational font
+musescore-common: font-in-non-font-package opt/share/fonts/opentype/mscore.otf
+
+# there is indeed none
+musescore-common: no-upstream-changelog
+
+# fixed in newer versions of OpenSSL, ignore until imported
+musescore-common: spelling-error-in-copyright aheared adhered
+musescore-common: spelling-error-in-copyright rouines routines
+musescore-common: spelling-error-in-copyright GNU Public Licence GNU General Public License

@@ -1,0 +1,24 @@
+# false positive
+musescore: spelling-error-in-binary opt/bin/mscore LaOd Load
+musescore: spelling-error-in-binary opt/bin/mscore tagE stage
+
+# almost certainly a false positive
+musescore: spelling-error-in-binary opt/bin/mscore pres press
+
+# fixed upstream, ignore until updated
+musescore: spelling-error-in-binary opt/bin/mscore independend independent
+musescore: spelling-error-in-binary opt/bin/mscore ambigous ambiguous
+musescore: spelling-error-in-binary opt/bin/mscore accesss access
+musescore: spelling-error-in-binary opt/bin/mscore recieved received
+musescore: spelling-error-in-binary opt/bin/mscore occured occurred
+
+# cf. https://github.com/w3c/smufl/issues/74#issuecomment-320513315
+musescore: spelling-error-in-binary opt/bin/mscore possibile possible
+
+# there is indeed none
+musescore: no-upstream-changelog
+
+# fixed in newer versions of OpenSSL, ignore until imported
+musescore: spelling-error-in-copyright aheared adhered
+musescore: spelling-error-in-copyright rouines routines
+musescore: spelling-error-in-copyright GNU Public Licence GNU General Public License

@@ -1,0 +1,1278 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: MuseScore
+Upstream-Contact: https://musescore.org/
+Source: https://github.com/musescore/MuseScore/
+Copyright: 2017, Werner Schweer and others
+License: GPL-2 with Font exception
+Files-Excluded: *.pdf
+                thirdparty/rtf2html/rtf2html
+Comment: PDFs and binary files removed to comply with the DFSG.
+
+License: GPL-2 with Font exception
+ If you want to redistribute MuseScore, you must comply with the GNU
+ General Public License (see details below). This license applies to
+ MuseScore with the following exception:
+ .
+ If you create a document which uses fonts included in MuseScore, and
+ embed this font or unaltered portions of this font into the document,
+ then this font does not by itself cause the resulting document to be
+ covered by the GNU General Public License. This exception does not
+ however invalidate any other reasons why the document might be covered
+ by the GNU General Public License. If you modify this font, you may
+ extend this exception to your version of the font, but you are not
+ obligated to do so. If you do not wish to do so, delete this exception
+ statement from your version.
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License along
+ with this package; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+ .
+ On Debian systems, the full text of the GNU General Public License
+ version 2 can be found in the file `/usr/share/common-licenses/GPL-2'.
+
+Files: *
+Copyright: 2002-2017, Werner Schweer and others
+License: GPL-2
+
+Files: aeolus/addsynth.cpp
+       aeolus/addsynth.h
+       aeolus/aeolus.cpp
+       aeolus/asection.cpp
+       aeolus/asection.h
+       aeolus/audio.cpp
+       aeolus/callbacks.h
+       aeolus/division.cpp
+       aeolus/division.h
+       aeolus/exp2ap.cpp
+       aeolus/global.h
+       aeolus/messages.h
+       aeolus/model.cpp
+       aeolus/model.h
+       aeolus/prbsgen.h
+       aeolus/rankwave.cpp
+       aeolus/rankwave.h
+       aeolus/rngen.cpp
+       aeolus/rngen.h
+       aeolus/scales.cpp
+       aeolus/scales.h
+       effects/chorus/*
+       effects/zita1/zita.cpp
+       effects/zita1/zita.h
+Copyright: 2003-2010, Fons Adriaensen <fons@kokkinizita.net>
+License: GPL-2+
+
+Files: awl/fastlog.h
+Copyright: Laurent de Soras <laurent@ohmforce.com>
+License: WTFPL-2
+
+Files: build/ECMQt4To5Porting.cmake
+Copyright: 2005-2011, Kitware, Inc.
+License: BSD-3-clause
+
+Files: build/FindPulseAudio.cmake
+Copyright: 2008, Andreas Schneider <mail@cynapses.org>
+                 Lasse Kärkkäinen <tronic>
+License: BSD-3-clause
+
+Files: build/travis/job2_AppImage/bintray.sh
+Copyright: 2004-2016, Simon Peter
+License: Expat
+
+Files: build/travis/job_macos/extract-qt-installer
+Copyright: QT-CI Project <https://github.com/benlau/qtci>
+License: Apache-2.0
+
+Files: fluid/chan.cpp
+       fluid/conv.cpp
+       fluid/conv.h
+       fluid/dsp.cpp
+       fluid/fluid.cpp
+       fluid/fluid.h
+       fluid/gen.cpp
+       fluid/gen.h
+       fluid/mod.cpp
+       fluid/sfont.cpp
+       fluid/sfont.h
+       fluid/voice.cpp
+       fluid/voice.h
+Copyright: 2003, Peter Hanappe and others.
+License: GPL-2+
+
+Files: fluid/tuning.cpp
+       fluid/tuning.h
+Copyright: 2002-2005, Nasca Octavian Paul
+License: GPL-2
+
+Files: fonts/bravura/*
+Copyright: 2015, Steinberg Media Technologies GmbH <http://www.steinberg.net/>, with Reserved Font Name "Bravura".
+License: OFL-1.1
+
+Files: fonts/FreeSans*.sfd
+       fonts/FreeSans*.ttf
+       fonts/FreeSerif*.sfd
+       fonts/FreeSerif*.ttf
+Copyright: 2002-2012, GNU Freefont contributors.
+License: GPL-3+ with Font exception
+
+Files: fonts/gootville/*
+Copyright: Grzegorz Pruchniakowski
+License: OFL-1
+
+Files: fonts/mscore-BC.sfd
+       fonts/mscore-BC.ttf
+Copyright: 2012, Maurizio M. Gavioli
+License: GPL-1+ with Font exception
+
+Files: fonts/mscore/MScoreText.sfd
+Copyright: 2014, Werner Schweer and others <http://musescore.org>, with Reserved Font Name "MScore Text".
+License: OFL-1.1
+
+Files: mscore/alsa.cpp
+       mscore/alsa.h
+       mscore/alsamidi.h
+       mscore/mididriver.cpp
+       mscore/mididriver.h
+Copyright:      2002, Paul Davis
+                2003, Fons Adriaensen
+           2002-2015, Werner Schweer and others.
+License: GPL-2
+
+Files: mscore/click.h
+Copyright: 2002, Paul Davis
+License: GPL-2+
+
+Files: mscore/importgtp-gp6.cpp
+Copyright: 2014, John Pirie
+License: GPL-2
+
+Files: mscore/paintengine_p.h
+       mscore/svggenerator.cpp
+       mscore/svggenerator.h
+Copyright: 2011 Nokia Corporation and/or its subsidiary(-ies) <qt-info@nokia.com>
+License: LGPL-2.1 with Nokia Qt LGPL Exception 1.1 or GPL-3
+
+Files: mscore/schema/*
+Copyright: 2004-2011, Recordare LLC
+License: MusicXML-3.0
+
+Files: mscore/toolbuttonmenu.cpp
+       mscore/toolbuttonmenu.h
+Copyright: 2016 Peter Jonas <shoogle@users.noreply.github.com>
+License: GPL-2
+
+Files: mstyle/*.cpp
+       mstyle/*.h
+Copyright: 2009-2010, Hugo Pereira Da Costa <hugo.pereira@free.fr>
+License: Expat
+
+Files: mstyle/colorscheme.cpp
+       mstyle/colorscheme.h
+Copyright: 2007, Matthew Woehlke <mw_triad@users.sourceforge.net>
+License: GPL-2+
+
+Files: mstyle/tileset.cpp
+       mstyle/tileset.h
+Copyright:      2007, Matthew Woehlke <mw_triad@users.sourceforge.net>
+                2008, Long Huynh Huu <long.upcase@googlemail.com>
+           2009-2010, Hugo Pereira Da Costa <hugo@oxygen-icons.org>
+License: GPL-2
+
+Files: mstyle/colorutils.cpp
+       mstyle/mconfig.cpp
+       mstyle/mconfig.h
+       mstyle/mstyle.cpp
+       mstyle/mstyle.h
+       mstyle/stylehelper.cpp
+       mstyle/stylehelper.h
+Copyright: 2010 Werner Schweer and others
+License: GPL-2
+
+Files: share/plugins/abc_import.qml
+Copyright: 2013, Stephane Groleau (vgstef)
+License: GPL-2
+
+Files: share/plugins/colornotes.qml
+Copyright:      2012, Werner Schweer
+           2013-2015, Nicolas Froment, Joachim Schmitz
+                2014, Jörn Eichler
+License: GPL-2
+
+Files: share/plugins/notenames.qml
+Copyright:      2012, Werner Schweer
+           2013-2014, Joachim Schmitz
+                2014, Jörn Eichler
+License: GPL-2
+
+Files: share/sound/FluidR3*
+Copyright: 2000-2002, 2008, Frank Wen <getfrank@gmail.com>
+                 2014-2015, Michael Cowgill
+License: Expat
+
+Files: share/wallpaper/paper4.png
+       share/wallpaper/paper5.png
+Copyright: 2008, Sun Microsystems, Inc
+           2008, Toby Smithe
+License: LGPL-3
+
+Files: thirdparty/beatroot/*
+Copyright: 2011, Simon Dixon, Chris Cannam and QMUL
+License: GPL-2+
+
+Files: thirdparty/diff/*
+Copyright: 2008, Google Inc
+License: Apache-2.0
+
+Files: thirdparty/freetype/*
+Copyright: 1996-2015 David Turner, Robert Wilhelm, and Werner Lemberg
+           1996-2009 Just van Rossum
+           2002-2012 Roberto Alameda
+           2003 Huw D M Davies for Codeweavers
+           2003-2012 Masatake YAMATO, Redhat K.K.
+           2004-2012 Albert Chin-A-Young
+           2004-2012 Suzuki Toshiya
+           2007 Dmitry Timoshkov for Codeweavers
+           2007-2011 Rahul Bhalerao <rahul.bhalerao@redhat.com>
+           2007-2012 Derek Clegg, Michael Toftdal
+           2009-2011 Oran Agra, Mickey Gabel
+           2010, 2012 Joel Klinghed
+License: GPL-2+ or FTL
+
+Files: thirdparty/intervaltree/*
+Copyright: 2011, Erik Garrison <erik.garrison@gmail.com>
+License: Expat
+
+Files: thirdparty/kQOAuth/*
+Copyright: Johan Paul <johan.paul@gmail.com>
+License: LGPL-2.1+
+
+Files: thirdparty/ofqf/*
+Copyright: 2007, Arnold Krille <arnold@arnoldarts.de>
+License: GPL-2+
+
+Files: thirdparty/openssl/include/openssl/*
+Copyright: 1995-1998, Eric Young <eay@cryptsoft.com>
+License: SSLeay
+
+Copyright: 1999-2010, The OpenSSL Project. All rights reserved.
+Files: thirdparty/openssl/include/openssl/aes.h
+       thirdparty/openssl/include/openssl/asn1t.h
+       thirdparty/openssl/include/openssl/camellia.h
+       thirdparty/openssl/include/openssl/cmac.h
+       thirdparty/openssl/include/openssl/cms.h
+       thirdparty/openssl/include/openssl/des_old.h
+       thirdparty/openssl/include/openssl/dso.h
+       thirdparty/openssl/include/openssl/dtls1.h
+       thirdparty/openssl/include/openssl/ecdh.h
+       thirdparty/openssl/include/openssl/ecdsa.h
+       thirdparty/openssl/include/openssl/ec.h
+       thirdparty/openssl/include/openssl/engine.h
+       thirdparty/openssl/include/openssl/e_os2.h
+       thirdparty/openssl/include/openssl/krb5_asn.h
+       thirdparty/openssl/include/openssl/kssl.h
+       thirdparty/openssl/include/openssl/modes.h
+       thirdparty/openssl/include/openssl/ocsp.h
+       thirdparty/openssl/include/openssl/ossl_typ.h
+       thirdparty/openssl/include/openssl/pem2.h
+       thirdparty/openssl/include/openssl/pkcs12.h
+       thirdparty/openssl/include/openssl/pqueue.h
+       thirdparty/openssl/include/openssl/safestack.h
+       thirdparty/openssl/include/openssl/srp.h
+       thirdparty/openssl/include/openssl/symhacks.h
+       thirdparty/openssl/include/openssl/ts.h
+       thirdparty/openssl/include/openssl/ui_compat.h
+       thirdparty/openssl/include/openssl/ui.h
+       thirdparty/openssl/include/openssl/x509v3.h
+License: OpenSSL
+
+Files: thirdparty/openssl/include/openssl/bn.h
+       thirdparty/openssl/include/openssl/crypto.h
+       thirdparty/openssl/include/openssl/ssl3.h
+Copyright: 1995-1998, Eric Young <eay@cryptsoft.com>
+           1998-2006, The OpenSSL Project. All rights reserved.
+                2002, Sun Microsystems, Inc. ALL RIGHTS RESERVED.
+License: SSLeay and OpenSSL
+
+Files: thirdparty/openssl/include/openssl/err.h
+Copyright: 1995-1998, Eric Young <eay@cryptsoft.com>
+           1998-2002, The OpenSSL Project. All rights reserved.
+License: SSLeay and OpenSSL
+
+Files: thirdparty/openssl/include/openssl/seed.h
+Copyright: 1998-2007, The OpenSSL Project. All rights reserved.
+                2007, KISA(Korea Information Security Agency). All rights reserved.
+License: SSLkisa and OpenSSL
+
+Files: thirdparty/openssl/include/openssl/srtp.h
+Copyright: 1995-1998, Eric Young <eay@cryptsoft.com>
+           1998-2002, The OpenSSL Project. All rights reserved.
+                2006, Network Resonance, Inc.
+                2011, RTFM, Inc.
+License: SSLeay and OpenSSL
+
+Files: thirdparty/openssl/include/openssl/ssl.h
+       thirdparty/openssl/include/openssl/tls1.h
+Copyright: 1995-1998, Eric Young <eay@cryptsoft.com>
+           1998-2007, The OpenSSL Project. All rights reserved.
+                2002, Sun Microsystems, Inc. ALL RIGHTS RESERVED.
+                2005, Nokia. All rights reserved.
+License: SSLeay and OpenSSL
+
+Files: thirdparty/portmidi/*
+Copyright: 1999-2000, Ross Bencina and Phil Burk
+           2001-2006, Roger B. Dannenberg
+License: Expat
+
+Files: thirdparty/portmidi/pm_mac/readbinaryplist.c
+Copyright: 2007, Jens Ayton
+           2008, Roger B. Dannenberg
+License: Expat
+
+Files: thirdparty/qzip/*
+Copyright: 2012, Nokia Corporation and/or its subsidiary(-ies) <qt-info@nokia.com>
+License: LGPL-2.1 with Nokia Qt LGPL Exception 1.1 or GPL-3
+
+Files: thirdparty/rtf2html/*
+Copyright: 2003, Valentin Lavrinenko <vlavrinenko@users.sourceforge.net>
+License: LGPL-2.1+
+
+Files: thirdparty/singleapp/*
+Copyright: 2013 Digia Plc and/or its subsidiary(-ies). <http://www.qt-project.org/legal>
+License: BSD-3-clause
+
+Files: thirdparty/xmlstream/*
+Copyright: 2013 Digia Plc and/or its subsidiary(-ies). <http://www.qt-project.org/legal>
+License: LGPL-2.1 with Digia Qt LGPL Exception 1.1 or GPL-3
+
+Files: *CMakeLists.txt
+Copyright: 2002-2017, Werner Schweer and others
+License: GPL-2
+
+License: Apache-2.0
+ Copyright [yyyy] [name of copyright owner]
+ .
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ .
+   http://www.apache.org/licenses/LICENSE-2.0
+ .
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ .
+ On Debian systems, the full text of the Apache License, Version 2.0
+ can be found in the file `/usr/share/common-licenses/Apache-2.0'.
+
+License: BSD-3-clause
+ Copyright (c) <year> <owner>.
+ All rights reserved.
+ .
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ .
+ 1. Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ .
+ 2. Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ .
+ 3. Neither the name of the copyright holder nor the names of its
+ contributors may be used to endorse or promote products derived
+ from this software without specific prior written permission.
+ .
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+License: Expat
+ Copyright (c) <year> <owner>
+ .
+ Permission is hereby granted, free of charge, to any person obtaining
+ a copy of this software and associated documentation files (the
+ "Software"), to deal in the Software without restriction, including
+ without limitation the rights to use, copy, modify, merge, publish,
+ distribute, sublicense, and/or sell copies of the Software, and to
+ permit persons to whom the Software is furnished to do so, subject to
+ the following conditions:
+ .
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+License: FTL
+                    The FreeType Project LICENSE
+                    ----------------------------
+ .
+                            2000-Feb-08
+ .
+                       Copyright 1996-2000 by
+          David Turner, Robert Wilhelm, and Werner Lemberg
+ .
+ .
+ .
+ Introduction
+ ============
+ .
+  The FreeType  Project is distributed in  several archive packages;
+  some of them may contain, in addition to the FreeType font engine,
+  various tools and  contributions which rely on, or  relate to, the
+  FreeType Project.
+ .
+  This  license applies  to all  files found  in such  packages, and
+  which do not  fall under their own explicit  license.  The license
+  affects  thus  the  FreeType   font  engine,  the  test  programs,
+  documentation and makefiles, at the very least.
+ .
+  This  license   was  inspired  by  the  BSD,   Artistic,  and  IJG
+  (Independent JPEG  Group) licenses, which  all encourage inclusion
+  and  use of  free  software in  commercial  and freeware  products
+  alike.  As a consequence, its main points are that:
+ .
+    o We don't promise that this software works. However, we will be
+      interested in any kind of bug reports. (`as is' distribution)
+ .
+    o You can  use this software for whatever you  want, in parts or
+      full form, without having to pay us. (`royalty-free' usage)
+ .
+    o You may not pretend that  you wrote this software.  If you use
+      it, or  only parts of it,  in a program,  you must acknowledge
+      somewhere  in  your  documentation  that  you  have  used  the
+      FreeType code. (`credits')
+ .
+  We  specifically  permit  and  encourage  the  inclusion  of  this
+  software, with  or without modifications,  in commercial products.
+  We  disclaim  all warranties  covering  The  FreeType Project  and
+  assume no liability related to The FreeType Project.
+ .
+ .
+ Legal Terms
+ ===========
+ .
+ 0. Definitions
+ --------------
+ .
+  Throughout this license,  the terms `package', `FreeType Project',
+  and  `FreeType  archive' refer  to  the  set  of files  originally
+  distributed  by the  authors  (David Turner,  Robert Wilhelm,  and
+  Werner Lemberg) as the `FreeType Project', be they named as alpha,
+  beta or final release.
+ .
+  `You' refers to  the licensee, or person using  the project, where
+  `using' is a generic term including compiling the project's source
+  code as  well as linking it  to form a  `program' or `executable'.
+  This  program is  referred to  as  `a program  using the  FreeType
+  engine'.
+ .
+  This  license applies  to all  files distributed  in  the original
+  FreeType  Project,   including  all  source   code,  binaries  and
+  documentation,  unless  otherwise  stated   in  the  file  in  its
+  original, unmodified form as  distributed in the original archive.
+  If you are  unsure whether or not a particular  file is covered by
+  this license, you must contact us to verify this.
+ .
+  The FreeType  Project is copyright (C) 1996-2000  by David Turner,
+  Robert Wilhelm, and Werner Lemberg.  All rights reserved except as
+  specified below.
+ .
+ 1. No Warranty
+ --------------
+ .
+  THE FREETYPE PROJECT  IS PROVIDED `AS IS' WITHOUT  WARRANTY OF ANY
+  KIND, EITHER  EXPRESS OR IMPLIED,  INCLUDING, BUT NOT  LIMITED TO,
+  WARRANTIES  OF  MERCHANTABILITY   AND  FITNESS  FOR  A  PARTICULAR
+  PURPOSE.  IN NO EVENT WILL ANY OF THE AUTHORS OR COPYRIGHT HOLDERS
+  BE LIABLE  FOR ANY DAMAGES CAUSED  BY THE USE OR  THE INABILITY TO
+  USE, OF THE FREETYPE PROJECT.
+ .
+ 2. Redistribution
+ -----------------
+ .
+  This  license  grants  a  worldwide, royalty-free,  perpetual  and
+  irrevocable right  and license to use,  execute, perform, compile,
+  display,  copy,   create  derivative  works   of,  distribute  and
+  sublicense the  FreeType Project (in  both source and  object code
+  forms)  and  derivative works  thereof  for  any  purpose; and  to
+  authorize others  to exercise  some or all  of the  rights granted
+  herein, subject to the following conditions:
+ .
+    o Redistribution  of source code  must retain this  license file
+      (`LICENSE.TXT') unaltered; any additions, deletions or changes
+      to   the  original   files  must   be  clearly   indicated  in
+      accompanying  documentation.   The  copyright notices  of  the
+      unaltered, original  files must be preserved in  all copies of
+      source files.
+ .
+    o Redistribution in binary form must provide a  disclaimer  that
+      states  that  the software is based in part of the work of the
+      FreeType Team,  in  the  distribution  documentation.  We also
+      encourage you to put an URL to the FreeType web page  in  your
+      documentation, though this isn't mandatory.
+ .
+  These conditions  apply to any  software derived from or  based on
+  the FreeType Project,  not just the unmodified files.   If you use
+  our work, you  must acknowledge us.  However, no  fee need be paid
+  to us.
+ .
+ 3. Advertising
+ --------------
+ .
+  Neither the  FreeType authors and  contributors nor you  shall use
+  the name of the  other for commercial, advertising, or promotional
+  purposes without specific prior written permission.
+ .
+  We suggest,  but do not require, that  you use one or  more of the
+  following phrases to refer  to this software in your documentation
+  or advertising  materials: `FreeType Project',  `FreeType Engine',
+  `FreeType library', or `FreeType Distribution'.
+ .
+  As  you have  not signed  this license,  you are  not  required to
+  accept  it.   However,  as  the FreeType  Project  is  copyrighted
+  material, only  this license, or  another one contracted  with the
+  authors, grants you  the right to use, distribute,  and modify it.
+  Therefore,  by  using,  distributing,  or modifying  the  FreeType
+  Project, you indicate that you understand and accept all the terms
+  of this license.
+ .
+ 4. Contacts
+ -----------
+ .
+  There are two mailing lists related to FreeType:
+ .
+    o freetype@freetype.org
+ .
+      Discusses general use and applications of FreeType, as well as
+      future and  wanted additions to the  library and distribution.
+      If  you are looking  for support,  start in  this list  if you
+      haven't found anything to help you in the documentation.
+ .
+    o devel@freetype.org
+ .
+      Discusses bugs,  as well  as engine internals,  design issues,
+      specific licenses, porting, etc.
+ .
+    o http://www.freetype.org
+ .
+      Holds the current  FreeType web page, which will  allow you to
+      download  our  latest  development  version  and  read  online
+      documentation.
+ .
+  You can also contact us individually at:
+ .
+    David Turner      <david.turner@freetype.org>
+    Robert Wilhelm    <robert.wilhelm@freetype.org>
+    Werner Lemberg    <werner.lemberg@freetype.org>
+
+License: GPL-1+ with Font exception
+ This font is distributed under the GNU General Public License. As a
+ special exception, if you create a document which uses this font, and
+ embed this font or unaltered portions of this font into the document,
+ this font does not by itself cause the resulting document to be covered
+ by the GNU General Public License.
+ .
+ On Debian systems, the full text of the GNU General Public
+ License version 1 can be found in the file
+ `/usr/share/common-licenses/GPL-1'.
+
+License: GPL-2
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License version 2.
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software Foundation,
+ Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+ .
+ On Debian systems, the full text of the GNU General Public License
+ version 2 can be found in the file `/usr/share/common-licenses/GPL-2'.
+
+License: GPL-2+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License along
+ with this program; if not, write to the Free Software Foundation, Inc.,
+ 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ .
+ On Debian systems, the full text of the GNU General Public License
+ version 2 can be found in the file `/usr/share/common-licenses/GPL-2'.
+
+License: GPL-3
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ .
+ On Debian systems, the full text of the GNU General Public License
+ version 3 can be found in the file `/usr/share/common-licenses/GPL-3'.
+
+License: GPL-3+ with Font exception
+ This computer font is part of GNU FreeFont. It is free software: you
+ can redistribute it and/or modify it under the terms of the GNU General
+ Public License as published by the Free Software Foundation, either
+ version 3 of the License, or (at your option) any later version.
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ .
+ As a special exception, if you create a document which uses this
+ font, and embed this font or unaltered portions of this font into
+ the document, this font does not by itself cause the resulting
+ document to be covered by the GNU General Public License. This
+ exception does not however invalidate any other reasons why the
+ document might be covered by the GNU General Public License. If
+ you modify this font, you may extend this exception to your version
+ of the font, but you are not obligated to do so. If you do not wish
+ to do so, delete this exception statement from your version.
+ .
+ On Debian systems, the full text of the GNU General Public
+ License version 3 can be found in the file
+ `/usr/share/common-licenses/GPL-3'.
+
+License: LGPL-2.1+
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
+ .
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
+ .
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA.
+ .
+ On Debian systems, the complete text of the GNU Lesser General Public
+ License version 2.1 can be found in `/usr/share/common-licenses/LGPL-2.1`.
+
+License: LGPL-2.1 with Digia Qt LGPL Exception 1.1
+ GNU Lesser General Public License version 2.1:
+ This file may be used under the terms of the GNU Lesser General Public
+ License version 2.1 as published by the Free Software Foundation and
+ appearing in the file LICENSE.LGPL included in the packaging of this
+ file. Please review the following information to ensure the GNU Lesser
+ General Public License version 2.1 requirements will be met:
+ http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+ .
+ In addition, as a special exception, Digia gives you certain additional
+ rights. These rights are described in the Digia Qt LGPL Exception
+ version 1.1, included in the file LGPL_EXCEPTION.txt in this package.
+ .
+ On Debian systems, the complete text of the GNU Lesser General Public
+ License version 2.1 can be found in `/usr/share/common-licenses/LGPL-2.1`.
+ .
+ Digia Qt LGPL Exception version 1.1:
+ As an additional permission to the GNU Lesser General Public License version
+ 2.1, the object code form of a "work that uses the Library" may incorporate
+ material from a header file that is part of the Library.  You may distribute
+ such object code under terms of your choice, provided that:
+     (i)   the header files of the Library have not been modified; and
+     (ii)  the incorporated material is limited to numerical parameters, data
+           structure layouts, accessors, macros, inline functions and
+           templates; and
+     (iii) you comply with the terms of Section 6 of the GNU Lesser General
+           Public License version 2.1.
+ .
+ Moreover, you may apply this exception to a modified version of the Library,
+ provided that such modification does not involve copying material from the
+ Library into the modified Library's header files unless such material is
+ limited to (i) numerical parameters; (ii) data structure layouts;
+ (iii) accessors; and (iv) small macros, templates and inline functions of
+ five lines or less in length.
+ .
+ Furthermore, you are not required to apply this additional permission to a
+ modified version of the Library.
+
+License: LGPL-2.1 with Nokia Qt LGPL Exception 1.1
+ This file may be used under the terms of the GNU Lesser General Public
+ License version 2.1 as published by the Free Software Foundation and
+ appearing in the file LICENSE.LGPL included in the packaging of this
+ file. Please review the following information to ensure the GNU Lesser
+ General Public License version 2.1 requirements will be met:
+ http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+ .
+ On Debian systems, the full text of the GNU Lesser General Public License
+ version 2.1 can be found in the file `/usr/share/common-licenses/LGPL-2.1'.
+ .
+ In addition, as a special exception, Nokia gives you certain additional
+ rights. These rights are described in the Nokia Qt LGPL Exception
+ version 1.1 (immediately below).
+ .
+ Nokia Qt LGPL Exception version 1.1
+ .
+ As an additional permission to the GNU Lesser General Public License
+ version 2.1, the object code form of a "work that uses the Library"
+ may incorporate material from a header file that is part of the
+ Library.  You may distribute such object code under terms of your
+ choice, provided that:
+ (i) the header files of the Library have not been modified; and
+ (ii) the incorporated material is limited to numerical parameters,
+ data structure layouts, accessors, macros, inline functions and
+ templates; and
+ (iii) you comply with the terms of Section 6 of the GNU
+ Lesser General Public License version 2.1.
+ .
+ Moreover, you may apply this exception to a modified version of the
+ Library, provided that such modification does not involve copying
+ material from the Library into the modified Library?s header files
+ unless such material is limited to (i) numerical parameters; (ii) data
+ structure layouts; (iii) accessors; and (iv) small macros, templates
+ and inline functions of five lines or less in length.
+ .
+ Furthermore, you are not required to apply this additional permission
+ to a modified version of the Library.
+
+License: LGPL-3
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU Lesser General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU Lesser General Public License for more details.
+ .
+ You should have received a copy of the GNU Lesser General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ .
+ On Debian systems, the full text of the GNU Lesser General Public License
+ version 3 can be found in the file `/usr/share/common-licenses/LGPL-3`.
+
+License: MusicXML-3.0
+ MusicXML™ Public License Version 3.0
+ .
+ This MusicXML™ work (including software, documents, or other related
+ items) is being provided by the Copyright Holder under the following
+ license. By obtaining, using and/or copying this work, each Contributor
+ and Recipient (hereinafter, collectively known as "Licensee") agree that
+ he/she has read, understood, and will comply with the following terms and
+ conditions:
+ .
+ A. DEFINITIONS
+ .
+ "Copyright Holder" means MakeMusic, Inc.
+ .
+ "Contribution" means:
+ .
+ in the case of MakeMusic, Inc., the Original Program, and
+ in the case of each Contributor,
+ changes to the Program, and
+ additions to the Program;
+ where such changes and/or additions to the Program originate from and are
+ distributed by that particular Contributor. A Contribution 'originates'
+ from a Contributor if it was added to the Program by such Contributor
+ itself or anyone acting on such Contributor's behalf. Contributions do not
+ include additions to the Program which: (i) are separate modules of
+ software distributed in conjunction with the Program under their own
+ license agreement, and (ii) are not derivative works of the Program.
+ "Contributor" means MakeMusic, Inc. and any other entity that distributes
+ the Program.
+ .
+ "MusicXML™ Mark" means the MusicXML™ trademark owned by MakeMusic, Inc.
+ .
+ "Original Program" means the original version of the software accompanying
+ this Agreement as released by MakeMusic, Inc., including source code,
+ object code and documentation, if any.
+ .
+ "Program" means the Original Program and Contributions.
+ .
+ "Recipient" means anyone who receives the Program under this Agreement,
+ including all Contributors.
+ .
+ B. GRANT OF RIGHTS
+ .
+ Permission to use, copy, modify, and distribute the Program, with or
+ without modification, for any purpose and without fee or royalty is hereby
+ granted, provided that each Recipient include the following on ALL copies
+ of the Program or portions thereof, including modifications, that he/she
+ make:
+ .
+ The full text of this License in a location viewable to users of the
+ redistributed or derivative work.
+ .
+ Any pre-existing intellectual property disclaimers, notices, or terms and
+ conditions. If none exist, a short notice of the following form (hypertext
+ is preferred, text is permitted) should be used within the body of any
+ redistributed or derivative code: "© MakeMusic, Inc. All rights reserved.
+ http://www.makemusic.com"
+ .
+ Notice of any changes or modifications to the MusicXML™ files, including
+ the date changes were made. (We recommend you provide URLs to the location
+ from which the code is derived.)
+ .
+ In addition, creators of derivative works must include the full text of
+ this License in a location viewable to users of the derivative work.
+ .
+ Title to copyright in the Program will at all times remain with Copyright
+ Holder.
+ .
+ C. NO WARRANTY
+ .
+ EXCEPT AS EXPRESSLY SET FORTH IN THIS AGREEMENT, THE PROGRAM IS PROVIDED
+ ON AN "AS IS" BASIS, AND COPYRIGHT HOLDER MAKES NO WARRANTIES OR
+ CONDITIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED INCLUDING, WITHOUT
+ LIMITATION, ANY WARRANTIES OR CONDITIONS OF TITLE, NON-INFRINGEMENT,
+ MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE. Each Recipient is
+ solely responsible for determining the appropriateness of using and
+ distributing the Program and assumes all risks associated with its
+ exercise of rights under this Agreement, including but not limited to the
+ risks and costs of program errors, compliance with applicable laws, damage
+ to or loss of data, programs or equipment, and unavailability or
+ interruption of operations.
+ .
+ D. DISCLAIMER OF LIABILITY
+ .
+ EXCEPT AS EXPRESSLY SET FORTH IN THIS AGREEMENT, NEITHER COPYRIGHT HOLDER
+ NOR ANY CONTRIBUTORS SHALL HAVE ANY LIABILITY FOR ANY DIRECT, INDIRECT,
+ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING
+ WITHOUT LIMITATION LOST PROFITS), HOWEVER CAUSED AND ON ANY THEORY OF
+ LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OR DISTRIBUTION
+ OF THE PROGRAM OR THE EXERCISE OF ANY RIGHTS GRANTED HEREUNDER, EVEN IF
+ ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+ .
+ E. TRADEMARK
+ .
+ 1. The MusicXML™ Mark (or a derivative Mark, such as MusicXML™ Plus)
+ may not be used to identify any product or service not originating from or
+ licensed by Copyright Holder without specific, written prior permission.
+ However, it is acceptable for a Contributor product or service to be
+ described as being MusicXML™-compatible, assuming that the claim is true
+ in Copyright Holder’s reasonable judgment.
+ .
+ 2. This License does not grant any rights to use any other trademarks
+ owned by Copyright Holder, including without limitation "Recordare®",
+ "Dolet®", and "In the Beginning Was the Note®", even if such marks are
+ included in the Program. For purposes of clarification and the avoidance
+ of doubt, the trademarks "Recordare®", "Dolet®", and "In the Beginning
+ Was the Note®" must not be used to endorse or promote Contributor
+ versions of the Program without the prior written permission of Copyright
+ Holder.
+ .
+ 3. All rights not expressly granted herein by Copyright Holder with
+ respect to the MusicXML™ Mark or any other trademarks owned by Copyright
+ Holder are reserved by and to Copyright Holder.
+ .
+ F. GENERAL
+ .
+ If any provision of this Agreement is invalid or unenforceable under
+ applicable law, it shall not affect the validity or enforceability of the
+ remainder of the terms of this Agreement, and without further action by
+ the parties hereto, such provision shall be reformed to the minimum extent
+ necessary to make such provision valid and enforceable.
+ .
+ All Recipient's rights under this Agreement shall terminate if it fails to
+ comply with any of the material terms or conditions of this Agreement and
+ does not cure such failure in a reasonable period of time after becoming
+ aware of such noncompliance. If all Recipient's rights under this
+ Agreement terminate, Recipient agrees to cease use and distribution of the
+ Program as soon as reasonably practicable. However, Recipient's
+ obligations under this Agreement and any licenses granted by Recipient
+ relating to the Program shall continue and survive.
+ .
+ MakeMusic, Inc. may publish new versions (including revisions) of this
+ Agreement from time to time. Each new version of the Agreement will be
+ given a distinguishing version number. The Program (including
+ Contributions) may always be distributed subject to the version of the
+ Agreement under which it was received. In addition, after a new version of
+ the Agreement is published, Contributor may elect to distribute the
+ Program (including its Contributions) under the new version. No one other
+ than MakeMusic, Inc. has the right to modify this Agreement. Except as
+ expressly stated in Sections B and E above, Recipient receives no rights
+ or licenses to the intellectual property of any Contributor under this
+ Agreement, whether expressly, by implication, estoppel or otherwise. All
+ rights in the Program not expressly granted under this Agreement are
+ reserved.
+ .
+ This Agreement is governed by the laws of the State of California and the
+ intellectual property laws of the United States of America.
+
+License: OFL-1
+ SIL OPEN FONT LICENSE
+ Version 1.0 - 22 November 2005
+ .
+ PREAMBLE
+ .
+ The goals of the Open Font License (OFL) are to stimulate worldwide
+ development of cooperative font projects, to support the font creation
+ efforts of academic and linguistic communities, and to provide an open
+ framework in which fonts may be shared and improved in partnership with
+ others.
+ .
+ The OFL allows the licensed fonts to be used, studied, modified and
+ redistributed freely as long as they are not sold by themselves. The
+ fonts, including any derivative works, can be bundled, embedded,
+ redistributed and sold with any software provided that the font names of
+ derivative works are changed. The fonts and derivatives, however, cannot
+ be released under any other type of license.
+ .
+ DEFINITIONS
+ .
+ "Font Software" refers to any and all of the following:
+ .
+ - font files
+ - data files
+ - source code
+ - build scripts
+ - documentation
+ .
+ "Reserved Font Name" refers to the Font Software name as seen by users and
+ any other names as specified after the copyright statement.
+ .
+ "Standard Version" refers to the collection of Font Software components as
+ distributed by the Copyright Holder.
+ .
+ "Modified Version" refers to any derivative font software made by adding
+ to, deleting, or substituting — in part or in whole -- any of the
+ components of the Standard Version, by changing formats or by porting the
+ Font Software to a new environment.
+ .
+ "Author" refers to any designer, engineer, programmer, technical writer or
+ other person who contributed to the Font Software.
+ .
+ PERMISSION & CONDITIONS
+ .
+ Permission is hereby granted, free of charge, to any person obtaining a
+ copy of the Font Software, to use, study, copy, merge, embed, modify,
+ redistribute, and sell modified and unmodified copies of the Font
+ Software, subject to the following conditions:
+ .
+ 1) Neither the Font Software nor any of its individual components, in
+ Standard or Modified Versions, may be sold by itself.
+ .
+ 2) Standard or Modified Versions of the Font Software may be bundled,
+ redistributed and sold with any software, provided that each copy contains
+ the above copyright notice and this license. These can be included either
+ as stand-alone text files, human-readable headers or in the appropriate
+ machine-readable metadata fields within text or binary files as long as
+ those fields can be easily viewed by the user.
+ .
+ 3) No Modified Version of the Font Software may use the Reserved Font
+ Name(s), in part or in whole, unless explicit written permission is
+ granted by the Copyright Holder. This restriction applies to all
+ references stored in the Font Software, such as the font menu name and
+ other font description fields, which are used to differentiate the font
+ from others.
+ .
+ 4) The name(s) of the Copyright Holder or the Author(s) of the Font
+ Software shall not be used to promote, endorse or advertise any Modified
+ Version, except to acknowledge the contribution(s) of the Copyright Holder
+ and the Author(s) or with their explicit written permission.
+ .
+ 5) The Font Software, modified or unmodified, in part or in whole, must be
+ distributed using this license, and may not be distributed under any other
+ license.
+ .
+ TERMINATION
+ .
+ This license becomes null and void if any of the above conditions are not
+ met.
+ .
+ DISCLAIMER
+ .
+ THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF
+ COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+ COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+ DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM OTHER
+ DEALINGS IN THE FONT SOFTWARE.
+
+License: OFL-1.1
+ Copyright (c) <dates>, <Copyright Holder> (<URL|email>),
+ with Reserved Font Name <Reserved Font Name>.
+ Copyright (c) <dates>, <additional Copyright Holder> (<URL|email>),
+ with Reserved Font Name <additional Reserved Font Name>.
+ Copyright (c) <dates>, <additional Copyright Holder> (<URL|email>).
+ .
+ This Font Software is licensed under the SIL Open Font License, Version 1.1.
+ This license is copied below, and is also available with a FAQ at:
+ http://scripts.sil.org/OFL
+ .
+ -----------------------------------------------------------
+ SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+ -----------------------------------------------------------
+ .
+ PREAMBLE
+ The goals of the Open Font License (OFL) are to stimulate worldwide
+ development of collaborative font projects, to support the font creation
+ efforts of academic and linguistic communities, and to provide a free and
+ open framework in which fonts may be shared and improved in partnership
+ with others.
+ .
+ The OFL allows the licensed fonts to be used, studied, modified and
+ redistributed freely as long as they are not sold by themselves. The
+ fonts, including any derivative works, can be bundled, embedded,
+ redistributed and/or sold with any software provided that any reserved
+ names are not used by derivative works. The fonts and derivatives,
+ however, cannot be released under any other type of license. The
+ requirement for fonts to remain under this license does not apply
+ to any document created using the fonts or their derivatives.
+ .
+ DEFINITIONS
+ "Font Software" refers to the set of files released by the Copyright
+ Holder(s) under this license and clearly marked as such. This may
+ include source files, build scripts and documentation.
+ .
+ "Reserved Font Name" refers to any names specified as such after the
+ copyright statement(s).
+ .
+ "Original Version" refers to the collection of Font Software components as
+ distributed by the Copyright Holder(s).
+ .
+ "Modified Version" refers to any derivative made by adding to, deleting,
+ or substituting -- in part or in whole -- any of the components of the
+ Original Version, by changing formats or by porting the Font Software to a
+ new environment.
+ .
+ "Author" refers to any designer, engineer, programmer, technical
+ writer or other person who contributed to the Font Software.
+ .
+ PERMISSION & CONDITIONS
+ Permission is hereby granted, free of charge, to any person obtaining
+ a copy of the Font Software, to use, study, copy, merge, embed, modify,
+ redistribute, and sell modified and unmodified copies of the Font
+ Software, subject to the following conditions:
+ .
+ 1) Neither the Font Software nor any of its individual components,
+ in Original or Modified Versions, may be sold by itself.
+ .
+ 2) Original or Modified Versions of the Font Software may be bundled,
+ redistributed and/or sold with any software, provided that each copy
+ contains the above copyright notice and this license. These can be
+ included either as stand-alone text files, human-readable headers or
+ in the appropriate machine-readable metadata fields within text or
+ binary files as long as those fields can be easily viewed by the user.
+ .
+ 3) No Modified Version of the Font Software may use the Reserved Font
+ Name(s) unless explicit written permission is granted by the corresponding
+ Copyright Holder. This restriction only applies to the primary font name as
+ presented to the users.
+ .
+ 4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+ Software shall not be used to promote, endorse or advertise any
+ Modified Version, except to acknowledge the contribution(s) of the
+ Copyright Holder(s) and the Author(s) or with their explicit written
+ permission.
+ .
+ 5) The Font Software, modified or unmodified, in part or in whole,
+ must be distributed entirely under this license, and must not be
+ distributed under any other license. The requirement for fonts to
+ remain under this license does not apply to any document created
+ using the Font Software.
+ .
+ TERMINATION
+ This license becomes null and void if any of the above conditions are
+ not met.
+ .
+ DISCLAIMER
+ THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+ OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+ COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+ DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+ OTHER DEALINGS IN THE FONT SOFTWARE.
+
+License: OpenSSL
+ ====================================================================
+ Copyright (c) 1998-2011 The OpenSSL Project.  All rights reserved.
+ .
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ .
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ .
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the
+    distribution.
+ .
+ 3. All advertising materials mentioning features or use of this
+    software must display the following acknowledgment:
+    "This product includes software developed by the OpenSSL Project
+    for use in the OpenSSL Toolkit. (http://www.openssl.org/)"
+ .
+ 4. The names "OpenSSL Toolkit" and "OpenSSL Project" must not be used to
+    endorse or promote products derived from this software without
+    prior written permission. For written permission, please contact
+    openssl-core@openssl.org.
+ .
+ 5. Products derived from this software may not be called "OpenSSL"
+    nor may "OpenSSL" appear in their names without prior written
+    permission of the OpenSSL Project.
+ .
+ 6. Redistributions of any form whatsoever must retain the following
+    acknowledgment:
+    "This product includes software developed by the OpenSSL Project
+    for use in the OpenSSL Toolkit (http://www.openssl.org/)"
+ .
+ THIS SOFTWARE IS PROVIDED BY THE OpenSSL PROJECT ``AS IS'' AND ANY
+ EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE OpenSSL PROJECT OR
+ ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ OF THE POSSIBILITY OF SUCH DAMAGE.
+ ====================================================================
+ .
+ This product includes cryptographic software written by Eric Young
+ (eay@cryptsoft.com).  This product includes software written by Tim
+ Hudson (tjh@cryptsoft.com).
+
+License: SSLeay
+ Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
+ All rights reserved.
+ .
+ This package is an SSL implementation written
+ by Eric Young (eay@cryptsoft.com).
+ The implementation was written so as to conform with Netscapes SSL.
+ .
+ This library is free for commercial and non-commercial use as long as
+ the following conditions are aheared to.  The following conditions
+ apply to all code found in this distribution, be it the RC4, RSA,
+ lhash, DES, etc., code; not just the SSL code.  The SSL documentation
+ included with this distribution is covered by the same copyright terms
+ except that the holder is Tim Hudson (tjh@cryptsoft.com).
+ .
+ Copyright remains Eric Young's, and as such any Copyright notices in
+ the code are not to be removed.
+ If this package is used in a product, Eric Young should be given attribution
+ as the author of the parts of the library used.
+ This can be in the form of a textual message at program startup or
+ in documentation (online or textual) provided with the package.
+ .
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ 3. All advertising materials mentioning features or use of this software
+    must display the following acknowledgement:
+    "This product includes cryptographic software written by
+     Eric Young (eay@cryptsoft.com)"
+    The word 'cryptographic' can be left out if the rouines from the library
+    being used are not cryptographic related :-).
+ 4. If you include any Windows specific code (or a derivative thereof) from
+    the apps directory (application code) you must include an acknowledgement:
+    "This product includes software written by Tim Hudson (tjh@cryptsoft.com)"
+ .
+ THIS SOFTWARE IS PROVIDED BY ERIC YOUNG ``AS IS'' AND
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
+ FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ SUCH DAMAGE.
+ .
+ The licence and distribution terms for any publically available
+ version or derivative of this code cannot be changed.  i.e. this
+ code cannot simply be copied and put under another distribution
+ licence [including the GNU Public Licence.]
+
+License: SSLkisa
+ Copyright (c) 2007 KISA(Korea Information Security Agency). All rights reserved.
+ .
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Neither the name of author nor the names of its contributors may
+    be used to endorse or promote products derived from this software
+    without specific prior written permission.
+ .
+ THIS SOFTWARE IS PROVIDED BY AUTHOR AND CONTRIBUTORS ``AS IS'' AND
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED.  IN NO EVENT SHALL AUTHOR OR CONTRIBUTORS BE LIABLE
+ FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+ OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+ SUCH DAMAGE.
+
+License: WTFPL-2
+            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+                    Version 2, December 2004
+ .
+ Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>
+ .
+ Everyone is permitted to copy and distribute verbatim or modified
+ copies of this license document, and changing it is allowed as long
+ as the name is changed.
+ .
+            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+ .
+  0. You just DO WHAT THE FUCK YOU WANT TO.

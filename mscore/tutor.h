@@ -51,6 +51,7 @@ class Tutor {
       void safe_write(char *data, int len, bool flush_op);
       int pitchToLight(int pitch);
       void clearKeyNoLock(int pitch, bool mark = false);
+      void onFlushTimer();
 
       bool needs_flush;
       struct timespec last_flushed_ts;

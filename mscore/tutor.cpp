@@ -24,6 +24,9 @@
 #include <stdio.h>
 #include <time.h>
 #include <assert.h>
+#include <functional>
+
+#include <QTimer>
 
 #ifdef WIN32
 #include <windows.h>
@@ -381,6 +384,9 @@ void Tutor::setColor(int idx, int r, int g, int b) {
   colors[idx][2] = b;
 }
 
+// ms to wait before flushing on keyPressed()
+static int FLUSH_TOUT=5;
+
 int Tutor::keyPressed(int pitch, int velo) {
   pitch &= 255;
   tnote & n = notes[pitch];
@@ -394,14 +400,16 @@ int Tutor::keyPressed(int pitch, int velo) {
     if (n.future == 0) {
       qDebug("Clearing event: pitch=%d\n", pitch);
       clearKeyNoLock(pitch);
-      flushNoLock();
+      QTimer::singleShot(FLUSH_TOUT, std::bind(std::mem_fn(&Tutor::onFlushTimer), this));
+      //flushNoLock();
       rv = 0;
       break;
     } else if (n.future > 0 && num_curr_events == 0) {
       rv = n.future;
       qDebug("Clearing future event & skipping: pitch=%d\n", pitch);
       clearKeyNoLock(pitch, true);
-      flushNoLock();
+      QTimer::singleShot(FLUSH_TOUT, std::bind(std::mem_fn(&Tutor::onFlushTimer), this));
+      //flushNoLock();
       break;
     }
   } while (false);
@@ -422,4 +430,11 @@ void Tutor::setSerialDevice(const std::string & s) {
 
 std::string Tutor::getSerialDevice() const {
   return serialDevice;
+}
+
+void Tutor::onFlushTimer() {
+  std::lock_guard<std::mutex> lock(mtx);
+  if (needs_flush) {
+    flushNoLock();
+  }
 }

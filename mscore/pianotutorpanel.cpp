@@ -67,6 +67,11 @@ PianoTutorPanel::PianoTutorPanel(QWidget* parent)
       connect(rightHandColor, SIGNAL(clicked()), this, SLOT(onRightHandColClicked()));
       connect(tutorWizard, SIGNAL(clicked()), this, SLOT(onWizardClicked()));
 
+      // TODO: probably unneeded...
+      serialDevice->setEditable(true);
+      if (serialDevice->lineEdit() != 0)
+	serialDevice->lineEdit()->setEnabled(true);
+
       wizard_ = 0;
       }
 
@@ -112,19 +117,20 @@ void PianoTutorPanel::showConfig() {
   lightsPerMeter->blockSignals(true);
   midCLight->blockSignals(true);
   backwardLayout->blockSignals(true);
-
+  serialDevice->blockSignals(true);
+ 
   lightsPerMeter->setCurrentText(QString::number(fabs(tutor_.getCoeff())));
   midCLight->setText(QString::number(tutor_.getC4Light()));
   backwardLayout->setChecked(tutor_.getCoeff() < 0);
+  serialDevice->setCurrentText(QString::fromStdString(tutor_.getSerialDevice()));
 
   lightsPerMeter->blockSignals(false);
   midCLight->blockSignals(false);
   backwardLayout->blockSignals(false);
+  serialDevice->blockSignals(false);
 
   leftHandColor->setStyleSheet(QString::fromStdString(std::string("background-color:#") + col2hex(tutor_.getColor(1))));
   rightHandColor->setStyleSheet(QString::fromStdString(std::string("background-color:#") + col2hex(tutor_.getColor(0))));
-
-  serialDevice->setCurrentText(QString::fromStdString(tutor_.getSerialDevice()));
 }
 
 //---------------------------------------------------------

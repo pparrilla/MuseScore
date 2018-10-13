@@ -1,3 +1,12 @@
+musescore (3.0dev-pt0.4) UNRELEASED; urgency=medium
+
+  * MuseScore rebased on latest 3.0dev
+  * PianoTutor improvements and fixes
+  * PianoTutor new panel layout
+  * PianoTutor new checkbox to enable option highlighting keys until released
+
+ -- Tommaso Cucinotta <tommaso@laptom>  Sun, 14 Oct 2018 01:18:03 +0200
+
 musescore (3.0dev-pianotutor0.2) unstable; urgency=low
 
   * PianoTutor addition.

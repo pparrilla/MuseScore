@@ -56,18 +56,21 @@ class Tutor {
 
       bool needs_flush;
       struct timespec last_flushed_ts;
+      bool lit_until_release;
 
  public:
       Tutor();
       void setC4Light(int num) { c4light = num; }
       void setC4Pitch(int pitch);
       int getC4Light() const { return c4light; }
+      bool getLitUntilRelease() const { return lit_until_release; }
       void setCoeff(double c) { coeff = c; }
       double getCoeff() const { return coeff; }
       int* getColor(int idx) {  return colors[idx];  }
       void setColor(int idx, int r, int g, int b);
       void setSerialDevice(const std::string & s);
       std::string getSerialDevice() const;
+      void setLitUntilRelease(bool val) { lit_until_release = val; }
 
       void addKey(int pitch, int velo, int channel, int future = 0);
       void clearKey(int pitch, bool mark = false);

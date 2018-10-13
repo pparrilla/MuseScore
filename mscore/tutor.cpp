@@ -96,7 +96,8 @@ ssize_t READ(int fd, void *buf, size_t count) {
 Tutor::Tutor() : serialDevice(DEFAULT_SERIAL_DEVICE),
                  tutorSerial(INVALID_SERIAL), num_curr_events(0),
 		 c4light(71), coeff(-2.0),
-		 needs_flush(false)
+		 needs_flush(false),
+                 lit_until_release(false)
 {
   // mark all notes as unused
   for (int i = 0; i < 256; i++) {
@@ -417,10 +418,16 @@ int Tutor::keyPressed(int pitch, int velo) {
       break;
     }
     if (n.future == 0) {
-      qDebug("Clearing event: pitch=%d", pitch);
-      n.velo = -2;
+      if (lit_until_release) {
+        qDebug("Marking key as pressed: pitch=%d", pitch);
+        n.velo = -2;
+        setTutorLightPressed(pitch);
+      } else {
+        qDebug("Clearing key: pitch=%d", pitch);
+        n.velo = -1;
+        clearTutorLight(pitch);
+      }
       --num_curr_events;
-      setTutorLightPressed(pitch);
       QTimer::singleShot(FLUSH_TOUT, std::bind(std::mem_fn(&Tutor::onFlushTimer), this));
       //flushNoLock();
       rv = 0;

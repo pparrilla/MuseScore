@@ -63,6 +63,7 @@ PianoTutorPanel::PianoTutorPanel(QWidget* parent)
       connect(midCLight, SIGNAL(textChanged(const QString &)), this, SLOT(onParamsChanged()));
       connect(backwardLayout, SIGNAL(stateChanged(int)), this, SLOT(onParamsChanged()));
       connect(serialDevice, SIGNAL(editTextChanged(const QString &)), this, SLOT(onParamsChanged()));
+      connect(litUntilRelease, SIGNAL(stateChanged(int)), this, SLOT(onParamsChanged()));
       connect(leftHandColor, SIGNAL(clicked()), this, SLOT(onLeftHandColClicked()));
       connect(rightHandColor, SIGNAL(clicked()), this, SLOT(onRightHandColClicked()));
       connect(tutorWizard, SIGNAL(clicked()), this, SLOT(onWizardClicked()));
@@ -118,16 +119,19 @@ void PianoTutorPanel::showConfig() {
   midCLight->blockSignals(true);
   backwardLayout->blockSignals(true);
   serialDevice->blockSignals(true);
- 
+  litUntilRelease->blockSignals(true);
+
   lightsPerMeter->setCurrentText(QString::number(fabs(tutor_.getCoeff())));
   midCLight->setText(QString::number(tutor_.getC4Light()));
   backwardLayout->setChecked(tutor_.getCoeff() < 0);
   serialDevice->setCurrentText(QString::fromStdString(tutor_.getSerialDevice()));
+  litUntilRelease->setChecked(tutor_.getLitUntilRelease());
 
   lightsPerMeter->blockSignals(false);
   midCLight->blockSignals(false);
   backwardLayout->blockSignals(false);
   serialDevice->blockSignals(false);
+  litUntilRelease->blockSignals(false);
 
   leftHandColor->setStyleSheet(QString::fromStdString(std::string("background-color:#") + col2hex(tutor_.getColor(1))));
   rightHandColor->setStyleSheet(QString::fromStdString(std::string("background-color:#") + col2hex(tutor_.getColor(0))));
@@ -169,6 +173,7 @@ void PianoTutorPanel::onParamsChanged()
 	tutor_.setC4Light(midCLight->text().toInt());
 	tutor_.setCoeff(lpm * (backwardLayout->isChecked() ? -1 : 1));
 	tutor_.setSerialDevice(serialDevice->currentText().toStdString());
+	tutor_.setLitUntilRelease(litUntilRelease->isChecked());
       }
 
 void PianoTutorPanel::onLeftHandColClicked()

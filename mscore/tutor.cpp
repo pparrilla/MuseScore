@@ -69,7 +69,7 @@ ssize_t WRITE(int fd, void *buf, size_t count) {
 #ifdef WIN32
   DWORD len;
   if (WriteFile((HANDLE)fd, buf, count, &len, NULL) == 0) {
-    qDebug("WriteFile() failed!\n");
+    qDebug("WriteFile() failed!");
     return -1;
   }
   return len;
@@ -82,7 +82,7 @@ ssize_t READ(int fd, void *buf, size_t count) {
 #ifdef WIN32
   DWORD len;
   if (ReadFile((HANDLE)fd, buf, count, &len, NULL) == 0) {
-    qDebug("ReadFile() failed!\n");
+    qDebug("ReadFile() failed!");
     return -1;
   }
   return len;
@@ -113,17 +113,17 @@ bool Tutor::checkSerial() {
 
   tutorSerial = (int) CreateFile(serialDevice.c_str(), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
   if (tutorSerial == INVALID_SERIAL) {
-    qDebug("CreateFile() failed: serialDevice=%s\n", serialDevice.c_str());
+    qDebug("CreateFile() failed: serialDevice=%s", serialDevice.c_str());
     return false;
   }
   DCB config;
   if (GetCommState((HANDLE)tutorSerial, &config) == 0) {
-    qDebug("GetCommState() failed\n");
+    qDebug("GetCommState() failed");
     return false;
   }
   config.BaudRate = 115200;
   if (SetCommState((HANDLE)tutorSerial, &config) == 0) {
-    qDebug("SetCommState() failed\n");
+    qDebug("SetCommState() failed");
     return false;
   }
   // Waiting for "PianoTutor v1.0 is ready!" string
@@ -147,7 +147,7 @@ bool Tutor::checkSerial() {
 
   tutorSerial = open(serialDevice.c_str(), O_RDWR | O_NOCTTY);
   if (tutorSerial == INVALID_SERIAL) {
-    qDebug("open() failed: serialDevice=%s\n", serialDevice.c_str());
+    qDebug("open() failed: serialDevice=%s", serialDevice.c_str());
     return false;
   }
 
@@ -208,7 +208,7 @@ void Tutor::safe_write(char *data, int len, bool flush_op) {
   data[len] = '\0';
   while (len > 0) {
     int written = WRITE(tutorSerial, data, len);
-    qDebug("Written %d bytes (len=%d): %s\n", written, len, data);
+    qDebug("Written %d bytes (len=%d): %s", written, len, data);
     if (written < 0) {
       perror("write() failed!");
       CLOSE(tutorSerial);
@@ -230,7 +230,7 @@ void Tutor::flushNoLock() {
     char cmd[4];
     cmd[0]='F';
     cmd[1]='\n';
-    qDebug("flushNoLock(): calling safe_write()\n");
+    qDebug("flushNoLock(): calling safe_write()");
     safe_write(cmd, 2, true);
     needs_flush = false;
   }
@@ -315,7 +315,7 @@ void Tutor::addKey(int pitch, int velo, int channel, int future) {
   std::lock_guard<std::mutex> lock(mtx);
   if (velo == n.velo && channel == n.channel && future == n.future)
     return;
-  qDebug("addKey(): p=%d, v=%d, c=%d, f=%d\n", pitch, velo, channel, future);
+  qDebug("addKey(): p=%d, v=%d, c=%d, f=%d", pitch, velo, channel, future);
   if (n.velo != -1 && n.velo != -2) {
     if (future == 0 && n.future > 0) {
       ++num_curr_events;
@@ -349,7 +349,7 @@ void Tutor::addKey(int pitch, int velo, int channel, int future) {
 }
 
 void Tutor::clearKeyNoLock(int pitch, bool mark) {
-  qDebug("clearKey(): p=%d\n", pitch);
+  qDebug("clearKey(): p=%d", pitch);
   assert(!mtx.try_lock());
   pitch &= 255;
   tnote & n = notes[pitch];
@@ -417,7 +417,7 @@ int Tutor::keyPressed(int pitch, int velo) {
       break;
     }
     if (n.future == 0) {
-      qDebug("Clearing event: pitch=%d\n", pitch);
+      qDebug("Clearing event: pitch=%d", pitch);
       n.velo = -2;
       --num_curr_events;
       setTutorLightPressed(pitch);
@@ -427,7 +427,7 @@ int Tutor::keyPressed(int pitch, int velo) {
       break;
     } else if (n.future > 0 && num_curr_events == 0) {
       rv = n.future;
-      qDebug("Clearing future event & skipping: pitch=%d\n", pitch);
+      qDebug("Clearing future event & skipping: pitch=%d", pitch);
       clearKeyNoLock(pitch, true);
       QTimer::singleShot(FLUSH_TOUT, std::bind(std::mem_fn(&Tutor::onFlushTimer), this));
       //flushNoLock();

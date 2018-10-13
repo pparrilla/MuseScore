@@ -526,7 +526,7 @@ void Seq::playEvent(const NPlayEvent& event, unsigned framePos)
             if (!mute) {
 		putEvent(event, framePos);
 		if (mscore->tutorEnabled()) {
-		  qDebug("Adding event: pitch=%d, velo=%d, ch=%d\n", event.pitch(), event.velo(), event.channel());
+		  qDebug("Adding event: pitch=%d, velo=%d, ch=%d", event.pitch(), event.velo(), event.channel());
 		  tutor()->addKey(event.pitch(), event.velo(), event.channel());
 		  }
 	        }
@@ -678,7 +678,7 @@ void Seq::tutorFutureEvents(EventMap::const_iterator it, EventMap::const_iterato
     int playPosUTick = it->first;
     if (mscore->loop()) {
       int loopOutUTick = cs->repeatList()->tick2utick(cs->loopOutTick());
-      qDebug("playUTick: %d, loopOut: %d\n", playPosUTick, loopOutUTick);
+      qDebug("playUTick: %d, loopOut: %d", playPosUTick, loopOutUTick);
       if (playPosUTick >= loopOutUTick)
 	break;
     }
@@ -1432,7 +1432,7 @@ void Seq::midiInputReady()
       }
 
 void Seq::midiNoteReceived(int channel, int pitch, int velo) {
-  qDebug("Got MIDI event: ch=%d, pitch=%d, vel=%d\n", channel, pitch, velo);
+  qDebug("Got MIDI event: ch=%d, pitch=%d, vel=%d", channel, pitch, velo);
   PianoTutorPanel *ptp = mscore->getPianoTutorPanel();
   if (ptp)
     ptp->midiNoteReceived(channel, pitch, velo);
@@ -1441,14 +1441,14 @@ void Seq::midiNoteReceived(int channel, int pitch, int velo) {
   int future = tutor()->keyPressed(pitch, velo);
   if (future > 0) {
     // speed-up execution jumping to future event playPos
-    qDebug("Speeding up...\n");
+    qDebug("Speeding up...");
     for (auto it = playPos; it != events.end(); ++it) {
       const NPlayEvent& event = it->second;
       if (event.type() == ME_NOTEOFF || (event.type() == ME_NOTEON && event.velo() == 0)) {
         tutor()->clearKey(event.pitch());
       } else if (event.type() == ME_NOTEON && event.pitch() == pitch && event.velo() > 0) {
 	if (it->first > playPos->first) {
-	  qDebug("Seeking to %d\n", it->first);
+	  qDebug("Seeking to %d", it->first);
 	  seek(it->first);
 	}
 	break;

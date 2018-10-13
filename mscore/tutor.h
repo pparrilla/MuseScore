@@ -47,6 +47,7 @@ class Tutor {
       bool checkSerial();
       void setTutorLight(int pitch, int velo, int channel, int future);
       void clearTutorLight(int pitch);
+      void setTutorLightPressed(int pitch);
       void flushNoLock();
       void safe_write(char *data, int len, bool flush_op);
       int pitchToLight(int pitch);

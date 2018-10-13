@@ -289,6 +289,21 @@ void Tutor::clearTutorLight(int pitch) {
   }
 }
 
+// Mark a tutor light as pressed (dark grey), waiting for the note_off event to actually clear it
+void Tutor::setTutorLightPressed(int pitch) {
+  assert(!mtx.try_lock());
+  if (checkSerial()) {
+    int r = 2;
+    int g = 2;
+    int b = 2;
+    char cmd[16];
+    int cmdlen = snprintf(cmd, sizeof(cmd) - 1,
+			  "H%02x%02x%02x%02x\n", pitchToLight(pitch), r, g, b);
+    safe_write(cmd, cmdlen, false);
+    needs_flush = true;
+  }
+}
+
 void Tutor::addKey(int pitch, int velo, int channel, int future) {
   struct timespec prev = (struct timespec) {0, 0};
   if (velo == 0) {
@@ -301,7 +316,7 @@ void Tutor::addKey(int pitch, int velo, int channel, int future) {
   if (velo == n.velo && channel == n.channel && future == n.future)
     return;
   qDebug("addKey(): p=%d, v=%d, c=%d, f=%d\n", pitch, velo, channel, future);
-  if (n.velo != -1) {
+  if (n.velo != -1 && n.velo != -2) {
     if (future == 0 && n.future > 0) {
       ++num_curr_events;
       if (n.ts.tv_sec != 0 || n.ts.tv_nsec != 0)
@@ -338,7 +353,11 @@ void Tutor::clearKeyNoLock(int pitch, bool mark) {
   assert(!mtx.try_lock());
   pitch &= 255;
   tnote & n = notes[pitch];
-  if (n.velo != -1) {
+  if (n.velo == -2) {
+    clearTutorLight(pitch);
+    // num_curr_events was already decreased in this case
+    n.velo = -1;
+  } else if (n.velo != -1) {
     if (n.future == 0) {
       clearTutorLight(pitch);
       --num_curr_events;
@@ -393,13 +412,15 @@ int Tutor::keyPressed(int pitch, int velo) {
   int rv = -1;
   do {
     std::lock_guard<std::mutex> lock(mtx);
-    if (n.velo == -1) {
+    if (n.velo == -1 || n.velo == -2) {
       rv = -1;
       break;
     }
     if (n.future == 0) {
       qDebug("Clearing event: pitch=%d\n", pitch);
-      clearKeyNoLock(pitch);
+      n.velo = -2;
+      --num_curr_events;
+      setTutorLightPressed(pitch);
       QTimer::singleShot(FLUSH_TOUT, std::bind(std::mem_fn(&Tutor::onFlushTimer), this));
       //flushNoLock();
       rv = 0;

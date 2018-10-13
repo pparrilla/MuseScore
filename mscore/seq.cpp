@@ -1444,7 +1444,9 @@ void Seq::midiNoteReceived(int channel, int pitch, int velo) {
     qDebug("Speeding up...\n");
     for (auto it = playPos; it != events.end(); ++it) {
       const NPlayEvent& event = it->second;
-      if (event.type() == ME_NOTEON && event.pitch() == pitch && event.velo() > 0) {
+      if (event.type() == ME_NOTEOFF || (event.type() == ME_NOTEON && event.velo() == 0)) {
+        tutor()->clearKey(event.pitch());
+      } else if (event.type() == ME_NOTEON && event.pitch() == pitch && event.velo() > 0) {
 	if (it->first > playPos->first) {
 	  qDebug("Seeking to %d\n", it->first);
 	  seek(it->first);

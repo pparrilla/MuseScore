@@ -49,6 +49,8 @@ class PianoTutorPanel : public QDockWidget, private Ui::PianoTutorPanelBase {
      void onLeftHandColClicked();
      void onRightHandColClicked();
      void onWizardClicked();
+     void onSaveAsDefaultsClicked();
+     void onReloadDefaultsClicked();
 
    protected:
       virtual void changeEvent(QEvent *event);

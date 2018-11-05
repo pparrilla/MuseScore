@@ -25,6 +25,8 @@
 #include "seq.h"
 #include "musescore.h"
 #include "libmscore/measure.h"
+#include "preferences.h"
+
 #include <math.h>
 #include <sstream>
 #include <iomanip>
@@ -57,7 +59,7 @@ PianoTutorPanel::PianoTutorPanel(QWidget* parent)
       setAllowedAreas(Qt::DockWidgetAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea));
       MuseScore::restoreGeometry(this);
 
-      showConfig();
+      onReloadDefaultsClicked();
 
       connect(lightsPerMeter, SIGNAL(editTextChanged(const QString &)), this, SLOT(onParamsChanged()));
       connect(midCLight, SIGNAL(textChanged(const QString &)), this, SLOT(onParamsChanged()));
@@ -67,6 +69,8 @@ PianoTutorPanel::PianoTutorPanel(QWidget* parent)
       connect(leftHandColor, SIGNAL(clicked()), this, SLOT(onLeftHandColClicked()));
       connect(rightHandColor, SIGNAL(clicked()), this, SLOT(onRightHandColClicked()));
       connect(tutorWizard, SIGNAL(clicked()), this, SLOT(onWizardClicked()));
+      connect(saveAsDefaults, SIGNAL(clicked()), this, SLOT(onSaveAsDefaultsClicked()));
+      connect(reloadDefaults, SIGNAL(clicked()), this, SLOT(onReloadDefaultsClicked()));
 
       // TODO: probably unneeded...
       serialDevice->setEditable(true);
@@ -207,6 +211,33 @@ void PianoTutorPanel::onWizardClicked()
   tutor_.addKey(60, 127, 0);
   tutor_.flush();
   wizard_->exec();
+}
+
+void PianoTutorPanel::onSaveAsDefaultsClicked()
+{
+  preferences.setPreference(PREF_UI_PIANOTUTOR_SERIALDEVICE, tutor_.getSerialDevice().c_str());
+  preferences.setPreference(PREF_UI_PIANOTUTOR_COEFF, tutor_.getCoeff());
+  preferences.setPreference(PREF_UI_PIANOTUTOR_C4LIGHT, tutor_.getC4Light());
+  preferences.setPreference(PREF_UI_PIANOTUTOR_WAIT, tutorWaitCB->isChecked());
+  preferences.setPreference(PREF_UI_PIANOTUTOR_LOOKAHEAD, tutorLookAheadCB->isChecked());
+  preferences.setPreference(PREF_UI_PIANOTUTOR_LITUNTILRELEASE, tutor_.getLitUntilRelease());
+  preferences.setPreference(PREF_UI_PIANOTUTOR_LEFTCOLOR, (std::string("#") + col2hex(tutor_.getColor(1))).c_str());
+  preferences.setPreference(PREF_UI_PIANOTUTOR_RIGHTCOLOR, (std::string("#") + col2hex(tutor_.getColor(2))).c_str());
+}
+
+void PianoTutorPanel::onReloadDefaultsClicked()
+{
+  tutor_.setSerialDevice(preferences.getString(PREF_UI_PIANOTUTOR_SERIALDEVICE).toStdString());
+  tutor_.setCoeff(preferences.getDouble(PREF_UI_PIANOTUTOR_COEFF));
+  tutor_.setC4Light(preferences.getInt(PREF_UI_PIANOTUTOR_C4LIGHT));
+  tutorWaitCB->setChecked(preferences.getBool(PREF_UI_PIANOTUTOR_WAIT));
+  tutorLookAheadCB->setChecked(preferences.getBool(PREF_UI_PIANOTUTOR_LOOKAHEAD));
+  tutor_.setLitUntilRelease(preferences.getBool(PREF_UI_PIANOTUTOR_LITUNTILRELEASE));
+  showConfig();
+  QColor col(preferences.getString(PREF_UI_PIANOTUTOR_LEFTCOLOR));
+  tutor_.setColor(1, col.red(), col.green(), col.blue());
+  col = QColor(preferences.getString(PREF_UI_PIANOTUTOR_RIGHTCOLOR));
+  tutor_.setColor(2, col.red(), col.green(), col.blue());
 }
 
 void PianoTutorPanel::midiNoteReceived(int ch, int pitch, int velo) {

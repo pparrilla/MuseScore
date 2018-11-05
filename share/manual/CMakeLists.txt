@@ -18,31 +18,31 @@
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #=============================================================================
 
-install(DIRECTORY
-      plugins
-      DESTINATION ${Mscore_SHARE_NAME}${Mscore_INSTALL_NAME}manual
-      )
+# install(DIRECTORY
+#       plugins
+#       DESTINATION ${Mscore_SHARE_NAME}${Mscore_INSTALL_NAME}manual
+#       )
 
-install (DIRECTORY
-      ${PROJECT_BINARY_DIR}/share/manual/plugins
-      DESTINATION ${Mscore_SHARE_NAME}${Mscore_INSTALL_NAME}manual
-      )
+# install (DIRECTORY
+#       ${PROJECT_BINARY_DIR}/share/manual/plugins
+#       DESTINATION ${Mscore_SHARE_NAME}${Mscore_INSTALL_NAME}manual
+#       )
 
-install(FILES
-      DESTINATION ${Mscore_SHARE_NAME}${Mscore_INSTALL_NAME}manual
-      )
+# install(FILES
+#       DESTINATION ${Mscore_SHARE_NAME}${Mscore_INSTALL_NAME}manual
+#       )
 
-if (IS_DIRECTORY en)
-install (DIRECTORY
-      en
-      DESTINATION ${Mscore_SHARE_NAME}${Mscore_INSTALL_NAME}manual
-      )
-endif (IS_DIRECTORY en)
+# if (IS_DIRECTORY en)
+# install (DIRECTORY
+#       en
+#       DESTINATION ${Mscore_SHARE_NAME}${Mscore_INSTALL_NAME}manual
+#       )
+# endif (IS_DIRECTORY en)
 
-if (IS_DIRECTORY de)
-install (DIRECTORY
-      de
-      DESTINATION ${Mscore_SHARE_NAME}${Mscore_INSTALL_NAME}manual
-      )
-endif (IS_DIRECTORY de)
+# if (IS_DIRECTORY de)
+# install (DIRECTORY
+#       de
+#       DESTINATION ${Mscore_SHARE_NAME}${Mscore_INSTALL_NAME}manual
+#       )
+# endif (IS_DIRECTORY de)
 

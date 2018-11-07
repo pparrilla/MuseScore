@@ -375,19 +375,28 @@ void Tutor::clearKey(int pitch, bool mark) {
   clearKeyNoLock(pitch, mark);
 }
 
-void Tutor::clearKeys() {
+void Tutor::clearKeys(int channel) {
   do {
     std::lock_guard<std::mutex> lock(mtx);
-    if (checkSerial()) {
-      char cmd[4];
-      cmd[0]='c'; // 'c' also flushes
-      cmd[1]='\n';
-      safe_write(cmd, 2, true);
-      needs_flush = false;
+    if (channel == -1) {
+      if (checkSerial()) {
+        char cmd[4];
+        cmd[0]='c'; // 'c' also flushes
+        cmd[1]='\n';
+        safe_write(cmd, 2, true);
+        needs_flush = false;
+      }
+      for (int i = 0; i < (int) (sizeof(notes) / sizeof(notes[0])); ++i)
+        notes[i].velo = -1;
+      num_curr_events = 0;
+    } else {
+      for (int i = 0; i < (int) (sizeof(notes) / sizeof(notes[0])); ++i)
+        if (notes[i].velo != -1 && notes[i].channel == channel) {
+          clearTutorLight(i);
+          notes[i].velo = -1;
+        }
+      flushNoLock();
     }
-    for (int i = 0; i < (int) (sizeof(notes) / sizeof(notes[0])); ++i)
-      notes[i].velo = -1;
-    num_curr_events = 0;
   } while (false);
 }
 

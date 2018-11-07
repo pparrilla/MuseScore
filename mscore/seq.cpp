@@ -1258,7 +1258,7 @@ void Seq::stopNoteTimer()
 //   stopNotes
 //---------------------------------------------------------
 
-void Seq::stopNotes(int channel, bool realTime)
+void Seq::stopNotes(int channel, bool realTime, bool impactTutor)
       {
       auto send = [this, realTime](const NPlayEvent& event) {
             if (realTime)
@@ -1281,6 +1281,8 @@ void Seq::stopNotes(int channel, bool realTime)
             if (cs->midiChannel(channel) != 9)
                   send(NPlayEvent(ME_PITCHBEND,  channel, 0, 64));
             }
+      if (impactTutor && mscore->tutorEnabled())
+            tutor()->clearKeys(channel);
       if (preferences.getBool(PREF_IO_ALSA_USEALSAAUDIO) || preferences.getBool(PREF_IO_JACK_USEJACKAUDIO) || preferences.getBool(PREF_IO_PULSEAUDIO_USEPULSEAUDIO) || preferences.getBool(PREF_IO_PORTAUDIO_USEPORTAUDIO))
             _synti->allNotesOff(channel);
       }

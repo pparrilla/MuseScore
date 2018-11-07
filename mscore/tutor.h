@@ -74,7 +74,7 @@ class Tutor {
 
       void addKey(int pitch, int velo, int channel, int future = 0);
       void clearKey(int pitch, bool mark = false);
-      void clearKeys();
+      void clearKeys(int channel = -1);
       size_t size();
       void flush();
       int keyPressed(int pitch, int velo);

@@ -501,7 +501,7 @@ void PartEdit::chorusChanged(double val, bool syncControls)
 void PartEdit::muteChanged(bool val, bool syncControls)
       {
       if (val)
-            seq->stopNotes(channel->channel);
+            seq->stopNotes(channel->channel, false, true);
       channel->mute = val;
       sync(syncControls);
       }
@@ -524,7 +524,7 @@ void PartEdit::soloToggled(bool val, bool syncControls)
                               a->soloMute = (channel != a && !a->solo);
                               a->solo     = (channel == a || a->solo);
                               if (a->soloMute)
-                                    seq->stopNotes(a->channel);
+                                    seq->stopNotes(a->channel, false, true);
                               }
                         }
                   }

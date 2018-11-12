@@ -49,6 +49,7 @@
 #include <vorbis/vorbisfile.h>
 
 #include <time.h>
+#include <sstream>
 
 #ifdef USE_PORTMIDI
 #if defined(Q_OS_MAC) || defined(Q_OS_WIN)
@@ -338,6 +339,7 @@ void Seq::start()
             preferences.setPreference(PREF_IO_JACK_USEJACKTRANSPORT, false);
             }
       _driver->startTransport();
+      hash(events.cbegin(), events.cend());
       }
 
 //---------------------------------------------------------
@@ -710,6 +712,70 @@ void Seq::tutorFutureEvents(EventMap::const_iterator it, EventMap::const_iterato
   }
   clock_gettime(CLOCK_REALTIME, &ts_end);
   //qDebug("elapsed: %ld us\n", (ts_end.tv_sec - ts_beg.tv_sec) * 1000000 + (ts_end.tv_nsec - ts_beg.tv_nsec) / 1000);
+}
+
+static std::string chord2str(std::set<int> const & chord) {
+  std::ostringstream oss;
+  oss << "{ ";
+  for (auto i : chord)
+    oss << i << ", ";
+  oss << "}";
+  return oss.str();
+}
+
+static std::string seg2str(std::vector<std::set<int>> const & seg) {
+    std::ostringstream oss;
+    for (auto s : seg)
+      oss << chord2str(s) << ", ";
+    return oss.str();
+}
+
+// advances the iterator it past the returned chord
+std::set<int> Seq::getChordAt(EventMap::const_iterator & it, EventMap::const_iterator end) {
+    std::set<int> chord;
+    qreal chordSeconds = cs->utick2utime(it->first);
+    qreal currPosSeconds = chordSeconds;
+    do {
+      const NPlayEvent& event = it->second;
+      if (event.type() == ME_NOTEON && event.velo() > 0) {
+	//qDebug("HASH at tick %d (time %g) found event: pitch=%d, velo=%d, ch=%d\n", it->first, currPosSeconds, event.pitch(), event.velo(), event.channel());
+        chord.insert(event.pitch());
+      }
+      ++it;
+      currPosSeconds = cs->utick2utime(it->first);
+    } while (it != end && currPosSeconds < chordSeconds + 0.01);
+    qDebug("HASH - getChordAt(%gs) = %s", chordSeconds, chord2str(chord).c_str());
+    return chord;
+}
+
+const int MIN_SEG_LEN = 4;
+void Seq::hash(EventMap::const_iterator it, EventMap::const_iterator end) {
+  seg2pos.clear();
+  qDebug("HASH - begin");
+  while (it != end) {
+    std::set<int> chord = getChordAt(it, end);
+    while (it != end && chord.empty())
+      chord = getChordAt(it, end);
+    if (chord.empty())
+      return;
+    std::vector<std::set<int>> seg;
+    seg.push_back(chord);
+    auto it2 = it;
+    while (it2 != end && seg.size() < MIN_SEG_LEN) {
+      chord = getChordAt(it2, end);
+      while (it2 != end && chord.empty())
+        chord = getChordAt(it2, end);
+      if (chord.empty())
+        break;
+      seg.push_back(chord);
+    }
+    qDebug("HASH tmp seg: %s", seg2str(seg).c_str());
+    if (seg.size() < MIN_SEG_LEN)
+      return;
+    qDebug("seg2pos: adding %d to mapping for: %s", it2->first, seg2str(seg).c_str());
+    seg2pos[seg].push_back(it2->first);
+    ++it;
+  }
 }
 
 //-------------------------------------------------------------------
@@ -1440,7 +1506,42 @@ void Seq::midiNoteReceived(int channel, int pitch, int velo) {
     ptp->midiNoteReceived(channel, pitch, velo);
   if (!mscore->tutorEnabled() || velo == 0)
     return;
+
+  // update curr_seg as a moving window of the MIN_SEG_LEN last pressed chords
+  struct timespec ts;
+  clock_gettime(CLOCK_MONOTONIC_RAW, &ts);
+  if (curr_seg.empty() || (ts.tv_sec - ts_last_midi.tv_sec) * 1000 + (ts.tv_nsec - ts_last_midi.tv_nsec) / 1000000 >= 50) {
+    curr_seg.push_back(std::set<int>());
+  }
+  ts_last_midi = ts;
+  curr_seg.back().insert(pitch);
+  if (curr_seg.size() > MIN_SEG_LEN)
+    curr_seg.erase(curr_seg.begin());
+
   int future = tutor()->keyPressed(pitch, velo);
+  qDebug("future=%d", future);
+  if (future == -1) {
+    // on a mistake, look-up pos in seg2pos, and if a match is found skip-seek to there
+    std::string seg_s = seg2str(curr_seg);
+    qDebug("Look-up segment: %s", seg_s.c_str());
+    if (curr_seg.size() >= MIN_SEG_LEN) {
+      qDebug("Made sufficient mistakes to trigger a look-up of: %s", seg_s.c_str());
+      auto seg_it = seg2pos.find(curr_seg);
+      if (seg_it != seg2pos.cend()) {
+        // match found, pick first one in vector! TODO: choose closest?
+        qDebug("MATCH FOUND!");
+        int newPos = seg_it->second.front();
+        qDebug("Seeking on mistake to pos: %d", newPos);
+        // TODO: seek to end of recognized segment, not beginning
+        tutor()->clearKeys();
+        seek(newPos);
+        curr_seg.clear();
+      }
+    }
+    return;
+  }
+  // TODO: look-up even if good or future keys are in the loop?
+  curr_seg.clear();
   if (future > 0) {
     // speed-up execution jumping to future event playPos
     qDebug("Speeding up...");

@@ -169,6 +169,7 @@ void Preferences::init(bool storeInMemoryOnly)
             {PREF_UI_PIANOTUTOR_COEFF,                             new DoublePreference(-2.0)},
             {PREF_UI_PIANOTUTOR_WAIT,                              new BoolPreference(false)},
             {PREF_UI_PIANOTUTOR_LOOKAHEAD,                         new BoolPreference(false)},
+            {PREF_UI_PIANOTUTOR_AUTOSYNC,                          new BoolPreference(false)},
             {PREF_UI_PIANOTUTOR_LITUNTILRELEASE,                   new BoolPreference(false)},
             {PREF_UI_PIANOTUTOR_LEFTCOLOR,                         new StringPreference("#100010")},
             {PREF_UI_PIANOTUTOR_RIGHTCOLOR,                        new StringPreference("#001010")},

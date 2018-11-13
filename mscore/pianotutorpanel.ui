@@ -55,6 +55,13 @@
            </widget>
           </item>
           <item>
+           <widget class="QCheckBox" name="tutorAutoSyncCB">
+            <property name="text">
+             <string>Auto sync</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QCheckBox" name="litUntilRelease">
             <property name="text">
              <string>LEDs lit until release</string>

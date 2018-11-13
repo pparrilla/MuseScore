@@ -222,6 +222,7 @@ void PianoTutorPanel::onSaveAsDefaultsClicked()
   preferences.setPreference(PREF_UI_PIANOTUTOR_C4LIGHT, tutor_.getC4Light());
   preferences.setPreference(PREF_UI_PIANOTUTOR_WAIT, tutorWaitCB->isChecked());
   preferences.setPreference(PREF_UI_PIANOTUTOR_LOOKAHEAD, tutorLookAheadCB->isChecked());
+  preferences.setPreference(PREF_UI_PIANOTUTOR_AUTOSYNC, tutorAutoSyncCB->isChecked());
   preferences.setPreference(PREF_UI_PIANOTUTOR_LITUNTILRELEASE, tutor_.getLitUntilRelease());
   preferences.setPreference(PREF_UI_PIANOTUTOR_LEFTCOLOR, (std::string("#") + col2hex(tutor_.getColor(1))).c_str());
   preferences.setPreference(PREF_UI_PIANOTUTOR_RIGHTCOLOR, (std::string("#") + col2hex(tutor_.getColor(0))).c_str());
@@ -234,6 +235,7 @@ void PianoTutorPanel::onReloadDefaultsClicked()
   tutor_.setC4Light(preferences.getInt(PREF_UI_PIANOTUTOR_C4LIGHT));
   tutorWaitCB->setChecked(preferences.getBool(PREF_UI_PIANOTUTOR_WAIT));
   tutorLookAheadCB->setChecked(preferences.getBool(PREF_UI_PIANOTUTOR_LOOKAHEAD));
+  tutorAutoSyncCB->setChecked(preferences.getBool(PREF_UI_PIANOTUTOR_AUTOSYNC));
   tutor_.setLitUntilRelease(preferences.getBool(PREF_UI_PIANOTUTOR_LITUNTILRELEASE));
   showConfig();
   QColor col(preferences.getString(PREF_UI_PIANOTUTOR_LEFTCOLOR));

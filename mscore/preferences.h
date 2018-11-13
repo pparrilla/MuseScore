@@ -180,6 +180,7 @@ enum class MusicxmlExportBreaks : char {
 #define PREF_UI_PIANOTUTOR_COEFF                            "ui/pianotutor/coeff"
 #define PREF_UI_PIANOTUTOR_WAIT                             "ui/pianotutor/wait"
 #define PREF_UI_PIANOTUTOR_LOOKAHEAD                        "ui/pianotutor/lookAhead"
+#define PREF_UI_PIANOTUTOR_AUTOSYNC                         "ui/pianotutor/autoSync"
 #define PREF_UI_PIANOTUTOR_LITUNTILRELEASE                  "ui/pianotutor/litUntilRelease"
 #define PREF_UI_PIANOTUTOR_LEFTCOLOR                        "ui/pianotutor/leftColor"
 #define PREF_UI_PIANOTUTOR_RIGHTCOLOR                       "ui/pianotutor/rightColor"

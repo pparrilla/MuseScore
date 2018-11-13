@@ -339,7 +339,8 @@ void Seq::start()
             preferences.setPreference(PREF_IO_JACK_USEJACKTRANSPORT, false);
             }
       _driver->startTransport();
-      hash(events.cbegin(), events.cend());
+      if (mscore->tutorEnabled() && mscore->tutorAutoSync())
+            hash(events.cbegin(), events.cend());
       }
 
 //---------------------------------------------------------
@@ -1507,41 +1508,41 @@ void Seq::midiNoteReceived(int channel, int pitch, int velo) {
   if (!mscore->tutorEnabled() || velo == 0)
     return;
 
-  // update curr_seg as a moving window of the MIN_SEG_LEN last pressed chords
-  struct timespec ts;
-  clock_gettime(CLOCK_MONOTONIC_RAW, &ts);
-  if (curr_seg.empty() || (ts.tv_sec - ts_last_midi.tv_sec) * 1000 + (ts.tv_nsec - ts_last_midi.tv_nsec) / 1000000 >= 50) {
-    curr_seg.push_back(std::set<int>());
-  }
-  ts_last_midi = ts;
-  curr_seg.back().insert(pitch);
-  if (curr_seg.size() > MIN_SEG_LEN)
-    curr_seg.erase(curr_seg.begin());
-
   int future = tutor()->keyPressed(pitch, velo);
   qDebug("future=%d", future);
-  if (future == -1) {
-    // on a mistake, look-up pos in seg2pos, and if a match is found skip-seek to there
-    std::string seg_s = seg2str(curr_seg);
-    qDebug("Look-up segment: %s", seg_s.c_str());
-    if (curr_seg.size() >= MIN_SEG_LEN) {
-      qDebug("Made sufficient mistakes to trigger a look-up of: %s", seg_s.c_str());
-      auto seg_it = seg2pos.find(curr_seg);
-      if (seg_it != seg2pos.cend()) {
-        // match found, pick first one in vector! TODO: choose closest?
-        qDebug("MATCH FOUND!");
-        int newPos = seg_it->second.front();
-        qDebug("Seeking on mistake to pos: %d", newPos);
-        // TODO: seek to end of recognized segment, not beginning
-        tutor()->clearKeys();
-        seek(newPos);
-        curr_seg.clear();
+
+  if (mscore->tutorAutoSync()) {
+    // update curr_seg as a moving window of the MIN_SEG_LEN last pressed chords
+    struct timespec ts;
+    clock_gettime(CLOCK_MONOTONIC_RAW, &ts);
+    if (curr_seg.empty() || (ts.tv_sec - ts_last_midi.tv_sec) * 1000 + (ts.tv_nsec - ts_last_midi.tv_nsec) / 1000000 >= 50)
+      curr_seg.push_back(std::set<int>());
+    ts_last_midi = ts;
+    curr_seg.back().insert(pitch);
+    if (curr_seg.size() > MIN_SEG_LEN)
+      curr_seg.erase(curr_seg.begin());
+    if (future == -1) {
+      // on a mistake, look-up pos in seg2pos, and if a match is found skip-seek to there
+      std::string seg_s = seg2str(curr_seg);
+      qDebug("Look-up segment: %s", seg_s.c_str());
+      if (curr_seg.size() >= MIN_SEG_LEN) {
+        qDebug("Made sufficient mistakes to trigger a look-up of: %s", seg_s.c_str());
+        auto seg_it = seg2pos.find(curr_seg);
+        if (seg_it != seg2pos.cend()) {
+          // match found, pick first one in vector! TODO: choose closest?
+          qDebug("MATCH FOUND!");
+          int newPos = seg_it->second.front();
+          qDebug("Seeking on mistake to pos: %d", newPos);
+          // TODO: seek to end of recognized segment, not beginning
+          tutor()->clearKeys();
+          seek(newPos);
+          curr_seg.clear();
+        }
       }
+      return;
     }
-    return;
+    curr_seg.clear();
   }
-  // TODO: look-up even if good or future keys are in the loop?
-  curr_seg.clear();
   if (future > 0) {
     // speed-up execution jumping to future event playPos
     qDebug("Speeding up...");

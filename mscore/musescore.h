@@ -704,6 +704,7 @@ class MuseScore : public QMainWindow, public MuseScoreCore {
       bool tutorEnabled() const      { return pianoTutorPanel != 0 && pianoTutorPanel->tutorEnabled(); }
       bool tutorWait() const         { return pianoTutorPanel != 0 && pianoTutorPanel->tutorWait(); }
       bool tutorLookAhead() const    { return pianoTutorPanel != 0 && pianoTutorPanel->tutorLookAhead(); }
+      bool tutorAutoSync() const     { return pianoTutorPanel != 0 && pianoTutorPanel->tutorAutoSync(); }
       bool countIn() const           { return countInAction->isChecked(); }
       bool panDuringPlayback() const { return panAction->isChecked(); }
       void noteTooShortForTupletDialog();

@@ -21,7 +21,7 @@
   </property>
   <widget class="QWidget" name="dockWidgetContents">
    <layout class="QGridLayout" name="gridLayout_2">
-    <item row="0" column="0">
+    <item row="1" column="0">
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <widget class="QTabWidget" name="tabWidget">
@@ -245,29 +245,29 @@
         </widget>
        </widget>
       </item>
+     </layout>
+    </item>
+    <item row="0" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QPushButton" name="reloadDefaults">
-          <property name="toolTip">
-           <string>Reload saved PianoTutor default settings</string>
-          </property>
-          <property name="text">
-           <string>Load defaults</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="saveAsDefaults">
-          <property name="toolTip">
-           <string>Save current PianoTutor settings as default</string>
-          </property>
-          <property name="text">
-           <string>Save as defaults</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QPushButton" name="reloadDefaults">
+        <property name="toolTip">
+         <string>Reload saved PianoTutor default settings</string>
+        </property>
+        <property name="text">
+         <string>Load defaults</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="saveAsDefaults">
+        <property name="toolTip">
+         <string>Save current PianoTutor settings as default</string>
+        </property>
+        <property name="text">
+         <string>Save as defaults</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>

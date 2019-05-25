@@ -1514,7 +1514,7 @@ void Seq::midiNoteReceived(int channel, int pitch, int velo) {
   if (mscore->tutorAutoSync() && velo > 0) {
     // update curr_seg as a moving window of the MIN_SEG_LEN last pressed chords
     struct timespec ts;
-    clock_gettime(CLOCK_MONOTONIC_RAW, &ts);
+    clock_gettime(CLOCK_MONOTONIC, &ts);
     if (curr_seg.empty() || timespec_sub_us(&ts, &ts_last_midi) >= 50000)
       curr_seg.push_back(std::set<int>());
     ts_last_midi = ts;

@@ -104,7 +104,6 @@ Tutor::Tutor() : serialDevice(DEFAULT_SERIAL_DEVICE),
     notes[i].velo = -1;
   }
   memcpy(colors, def_colors, sizeof(colors));
-  last_flushed_ts = (struct timespec) { 0, 0 };
 }
 
 #ifdef WIN32
@@ -162,6 +161,8 @@ bool Tutor::checkSerial() {
   tio.c_iflag &= ~(IXON | IXOFF | IXANY);
   tio.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
   tio.c_oflag = 0;
+  tio.c_cc[VTIME] = 1; /* In 1/10 of a second: set timeout to 0.1s       */
+  tio.c_cc[VMIN] = 0;  /* No minimum bytes to wait for, before returning */
   if (cfsetispeed(&tio, B115200) < 0 || cfsetospeed(&tio, B115200) < 0) {
     perror("cfsetXspeed() failed: ");
     return false;
@@ -192,17 +193,19 @@ void Tutor::safe_write(char *data, int len, bool flush_op) {
 
   // flush operation(s) update LEDs on the stripe, which is blocking
   // Arduino for a while -- without it pulling bytes out of its
-  // hardware 1-byte buffer (!) -- let's wait for at least 2ms after a
-  // flush before any further write()
+  // hardware 1-byte buffer (!) -- let's have a ping-pong with
+  // Arduino before writing anything, to be sure it's listening back.
   // note: spin-waiting with lock held in RT thread (!)
-  struct timespec now;
-  struct timespec &old = last_flushed_ts;
+
+  const char *ping_str = "P\n";
+  char pong_char = '.';
+  int bytes_read;
   do {
-    clock_gettime(CLOCK_REALTIME, &now);
-  } while ((old.tv_sec != 0 || old.tv_nsec != 0) &&
-	   ((now.tv_sec - old.tv_sec) * 1000000 + (now.tv_nsec - old.tv_nsec) / 1000 < 10000));
-  if (flush_op)
-    last_flushed_ts = now;
+    WRITE(tutorSerial, (void*)ping_str, 2);
+    bytes_read = READ(tutorSerial, &pong_char, 1);
+    if (pong_char != 'P')
+      continue;
+  } while (bytes_read != 1);
 
   // useful to debug/printf() what's about to be written (beware of buffer overruns)
   int retry = 2;

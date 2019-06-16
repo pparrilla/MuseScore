@@ -55,7 +55,6 @@ class Tutor {
       void onFlushTimer();
 
       bool needs_flush;
-      struct timespec last_flushed_ts;
       bool lit_until_release;
 
  public:

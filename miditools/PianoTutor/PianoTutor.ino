@@ -69,7 +69,7 @@ void loop() {
 //  Serial.print(ch);
 //  Serial.print(", avail: ");
 //  Serial.println(avail);
-  if (ch != 'k' && ch != 'K' && ch != 'h' && ch != 'H' && ch != 'c' && ch != 'C' && ch != 'F') {
+  if (ch != 'k' && ch != 'K' && ch != 'h' && ch != 'H' && ch != 'c' && ch != 'C' && ch != 'F' && ch != 'P') {
 //    if (ch != '\n') {
 //      Serial.print("Ign: ");
 //      Serial.println(ch);
@@ -118,6 +118,10 @@ void loop() {
       pixels.setPixelColor(k, 0, 0, 0);
     if (ch == 'c')
       pixels.show();
+  } else if (ch == 'P') {
+    Serial.read(); // skip 'P';
+    Serial.write('P');
+    Serial.flush();
   }
 }
 

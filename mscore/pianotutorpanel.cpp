@@ -247,7 +247,7 @@ void PianoTutorPanel::onReloadDefaultsClicked()
 void PianoTutorPanel::midiNoteReceived(int ch, int pitch, int velo) {
   if (wizard_) {
     // pitch corresponds to midCLight
-    tutor_.setC4Pitch(pitch);
+    tutor_.tuneC4Pitch(pitch);
     wizard_->close();
     wizard_ = 0;
     showConfig();

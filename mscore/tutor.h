@@ -61,7 +61,7 @@ class Tutor {
  public:
       Tutor();
       void setC4Light(int num) { c4light = num; }
-      void setC4Pitch(int pitch);
+      void tuneC4Pitch(int pitch);
       int getC4Light() const { return c4light; }
       bool getLitUntilRelease() const { return lit_until_release; }
       void setCoeff(double c) { coeff = c; }

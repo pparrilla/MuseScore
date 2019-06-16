@@ -255,7 +255,7 @@ int Tutor::pitchToLight(int pitch) {
   return led;
 }
 
-void Tutor::setC4Pitch(int pitch) {
+void Tutor::tuneC4Pitch(int pitch) {
   clearKeys();
   c4light -= round((pitch - 60) * coeff);
 }

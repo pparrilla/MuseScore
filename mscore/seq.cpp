@@ -1533,7 +1533,6 @@ void Seq::midiNoteReceived(int channel, int pitch, int velo) {
           qDebug("MATCH FOUND!");
           int newPos = seg_it->second.front();
           qDebug("Seeking on mistake to pos: %d", newPos);
-          // TODO: seek to end of recognized segment, not beginning
           tutor()->clearKeys();
           seek(newPos);
           curr_seg.clear();

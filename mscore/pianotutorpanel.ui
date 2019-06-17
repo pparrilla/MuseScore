@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>410</width>
+    <width>417</width>
     <height>506</height>
    </rect>
   </property>
@@ -65,6 +65,13 @@
            <widget class="QCheckBox" name="litUntilRelease">
             <property name="text">
              <string>LEDs lit until release</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="tutorMistakesCB">
+            <property name="text">
+             <string>Highlight mistakes</string>
             </property>
            </widget>
           </item>

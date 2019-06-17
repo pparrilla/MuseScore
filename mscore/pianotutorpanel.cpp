@@ -139,8 +139,8 @@ void PianoTutorPanel::showConfig() {
   serialDevice->blockSignals(false);
   litUntilRelease->blockSignals(false);
 
-  leftHandColor->setStyleSheet(QString::fromStdString(std::string("background-color:#") + col2hex(tutor_.getColor(1), COLOR_MULF)));
-  rightHandColor->setStyleSheet(QString::fromStdString(std::string("background-color:#") + col2hex(tutor_.getColor(0), COLOR_MULF)));
+  leftHandColor->setStyleSheet(QString::fromStdString(std::string("background-color:#") + col2hex(tutor_.getColor(2), COLOR_MULF)));
+  rightHandColor->setStyleSheet(QString::fromStdString(std::string("background-color:#") + col2hex(tutor_.getColor(1), COLOR_MULF)));
 }
 
 //---------------------------------------------------------
@@ -184,23 +184,23 @@ void PianoTutorPanel::onParamsChanged()
 
 void PianoTutorPanel::onLeftHandColClicked()
 {
-  int *c = tutor_.getColor(1);
+  int *c = tutor_.getColor(2);
   QColor col_init(std::min(255, c[0]*COLOR_MULF), std::min(255, c[1]*COLOR_MULF), std::min(255, c[2]*COLOR_MULF));
   QColor col = QColorDialog::getColor(col_init, this);
   if (col.isValid()) {
-    tutor_.setColor(1, col.red()/COLOR_MULF, col.green()/COLOR_MULF, col.blue()/COLOR_MULF);
-    leftHandColor->setStyleSheet(QString::fromStdString(std::string("background-color:#") + col2hex(tutor_.getColor(1), COLOR_MULF)));
+    tutor_.setColor(2, col.red()/COLOR_MULF, col.green()/COLOR_MULF, col.blue()/COLOR_MULF);
+    leftHandColor->setStyleSheet(QString::fromStdString(std::string("background-color:#") + col2hex(tutor_.getColor(2), COLOR_MULF)));
   }
 }
 
 void PianoTutorPanel::onRightHandColClicked()
 {
-  int *c = tutor_.getColor(0);
+  int *c = tutor_.getColor(1);
   QColor col_init(std::min(255, c[0]*COLOR_MULF), std::min(255, c[1]*COLOR_MULF), std::min(255, c[2]*COLOR_MULF));
   QColor col = QColorDialog::getColor(col_init, this);
   if (col.isValid()) {
-    tutor_.setColor(0, col.red(), col.green(), col.blue());
-    rightHandColor->setStyleSheet(QString::fromStdString(std::string("background-color:#") + col2hex(tutor_.getColor(0), COLOR_MULF)));
+    tutor_.setColor(1, col.red(), col.green(), col.blue());
+    rightHandColor->setStyleSheet(QString::fromStdString(std::string("background-color:#") + col2hex(tutor_.getColor(1), COLOR_MULF)));
   }
 }
 
@@ -223,9 +223,10 @@ void PianoTutorPanel::onSaveAsDefaultsClicked()
   preferences.setPreference(PREF_UI_PIANOTUTOR_WAIT, tutorWaitCB->isChecked());
   preferences.setPreference(PREF_UI_PIANOTUTOR_LOOKAHEAD, tutorLookAheadCB->isChecked());
   preferences.setPreference(PREF_UI_PIANOTUTOR_AUTOSYNC, tutorAutoSyncCB->isChecked());
+  preferences.setPreference(PREF_UI_PIANOTUTOR_MISTAKES, tutorMistakesCB->isChecked());
   preferences.setPreference(PREF_UI_PIANOTUTOR_LITUNTILRELEASE, tutor_.getLitUntilRelease());
-  preferences.setPreference(PREF_UI_PIANOTUTOR_LEFTCOLOR, (std::string("#") + col2hex(tutor_.getColor(1))).c_str());
-  preferences.setPreference(PREF_UI_PIANOTUTOR_RIGHTCOLOR, (std::string("#") + col2hex(tutor_.getColor(0))).c_str());
+  preferences.setPreference(PREF_UI_PIANOTUTOR_LEFTCOLOR, (std::string("#") + col2hex(tutor_.getColor(2))).c_str());
+  preferences.setPreference(PREF_UI_PIANOTUTOR_RIGHTCOLOR, (std::string("#") + col2hex(tutor_.getColor(1))).c_str());
 }
 
 void PianoTutorPanel::onReloadDefaultsClicked()
@@ -236,12 +237,13 @@ void PianoTutorPanel::onReloadDefaultsClicked()
   tutorWaitCB->setChecked(preferences.getBool(PREF_UI_PIANOTUTOR_WAIT));
   tutorLookAheadCB->setChecked(preferences.getBool(PREF_UI_PIANOTUTOR_LOOKAHEAD));
   tutorAutoSyncCB->setChecked(preferences.getBool(PREF_UI_PIANOTUTOR_AUTOSYNC));
+  tutorMistakesCB->setChecked(preferences.getBool(PREF_UI_PIANOTUTOR_MISTAKES));
   tutor_.setLitUntilRelease(preferences.getBool(PREF_UI_PIANOTUTOR_LITUNTILRELEASE));
   showConfig();
   QColor col(preferences.getString(PREF_UI_PIANOTUTOR_LEFTCOLOR));
-  tutor_.setColor(1, col.red(), col.green(), col.blue());
+  tutor_.setColor(2, col.red(), col.green(), col.blue());
   col = QColor(preferences.getString(PREF_UI_PIANOTUTOR_RIGHTCOLOR));
-  tutor_.setColor(0, col.red(), col.green(), col.blue());
+  tutor_.setColor(1, col.red(), col.green(), col.blue());
 }
 
 void PianoTutorPanel::midiNoteReceived(int ch, int pitch, int velo) {

@@ -1505,13 +1505,13 @@ void Seq::midiNoteReceived(int channel, int pitch, int velo) {
   PianoTutorPanel *ptp = mscore->getPianoTutorPanel();
   if (ptp)
     ptp->midiNoteReceived(channel, pitch, velo);
-  if (!mscore->tutorEnabled() || velo == 0)
+  if (!mscore->tutorEnabled())
     return;
 
   int future = tutor()->keyPressed(pitch, velo);
   qDebug("future=%d", future);
 
-  if (mscore->tutorAutoSync()) {
+  if (mscore->tutorAutoSync() && velo > 0) {
     // update curr_seg as a moving window of the MIN_SEG_LEN last pressed chords
     struct timespec ts;
     clock_gettime(CLOCK_MONOTONIC_RAW, &ts);
@@ -1536,11 +1536,10 @@ void Seq::midiNoteReceived(int channel, int pitch, int velo) {
           tutor()->clearKeys();
           seek(newPos);
           curr_seg.clear();
+          return;
         }
       }
-      return;
     }
-    curr_seg.clear();
   }
   if (future > 0) {
     // speed-up execution jumping to future event playPos
@@ -1557,6 +1556,9 @@ void Seq::midiNoteReceived(int channel, int pitch, int velo) {
 	break;
       }
     }
+  } else if (ptp && ptp->tutorMistakes() && future == -1) {
+    // highlight mistake
+    tutor()->addKey(pitch, velo, -1);
   }
 }
 

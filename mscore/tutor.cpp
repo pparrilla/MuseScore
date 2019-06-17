@@ -42,9 +42,10 @@ static const char *DEFAULT_SERIAL_DEVICE="COM0";
 static const char *DEFAULT_SERIAL_DEVICE="/dev/ttyACM0";
 #endif
 
-int def_colors[2][3] = {
-  { 16, 0, 16},
-  { 0, 16, 16}
+int def_colors[3][3] = {
+  { 16, 0, 0},  // default color for mistakes
+  { 16, 0, 16}, // default color for even channels
+  { 0, 16, 16}  // default color for odd channels
 };
 
 /* Cross-OS Win32 / Linux functions - BEGIN */
@@ -266,9 +267,16 @@ void Tutor::tuneC4Pitch(int pitch) {
 void Tutor::setTutorLight(int pitch, int velo, int channel, int future) {
   assert(!mtx.try_lock());
   if (checkSerial()) {
-    int r = colors[channel % 2][0];
-    int g = colors[channel % 2][1];
-    int b = colors[channel % 2][2];
+    int r, g, b;
+    if (channel == -1) {
+      r = colors[0][0];
+      g = colors[0][1];
+      b = colors[0][2];
+    } else {
+      r = colors[1 + channel % 2][0];
+      g = colors[1 + channel % 2][1];
+      b = colors[1 + channel % 2][2];
+    }
     if (future > 0) {
       r /= 8;
       g /= 8;
@@ -320,6 +328,11 @@ void Tutor::addKey(int pitch, int velo, int channel, int future) {
   if (velo == n.velo && channel == n.channel && future == n.future)
     return;
   qDebug("addKey(): p=%d, v=%d, c=%d, f=%d", pitch, velo, channel, future);
+  if (channel == -1) {
+    setTutorLight(pitch, velo, channel, 0);
+    n.velo = -2;
+    return;
+  }
   if (n.velo != -1 && n.velo != -2) {
     if (future == 0 && n.future > 0) {
       ++num_curr_events;
@@ -420,6 +433,8 @@ void Tutor::setColor(int idx, int r, int g, int b) {
 static int FLUSH_TOUT=5;
 
 int Tutor::keyPressed(int pitch, int velo) {
+  if (velo == 0)
+    return -1;
   pitch &= 255;
   tnote & n = notes[pitch];
   int rv = -1;

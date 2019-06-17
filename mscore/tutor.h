@@ -25,7 +25,7 @@
 #include <string>
 
 typedef struct {
-  int velo;
+  int velo;     // -1=unused, -2=waiting for note off to clear light
   int channel;
   int future;
   struct timespec ts;	// last press abs time
@@ -42,7 +42,8 @@ class Tutor {
       int c4light;
       double coeff;
 
-      int colors[2][3];
+      // 0=mistake, 1=ch0, 2=ch1
+      int colors[3][3];
 
       bool checkSerial();
       void setTutorLight(int pitch, int velo, int channel, int future);
@@ -71,6 +72,7 @@ class Tutor {
       std::string getSerialDevice() const;
       void setLitUntilRelease(bool val) { lit_until_release = val; }
 
+      // channel=-1 means add mistaken lighted key
       void addKey(int pitch, int velo, int channel, int future = 0);
       void clearKey(int pitch, bool mark = false);
       void clearKeys(int channel = -1);

@@ -179,12 +179,12 @@ class Seq : public QObject, public Sequencer {
       inline QQueue<NPlayEvent>* liveEventQueue() { return &_liveEventQueue; }
 
       // a score segment, represented as a vector of sets of integers (NOTE_ON note pitches),
-      // is mapped to its positions (which can be more than one in the currently open score)
-      std::map<std::vector<std::set<int>>, std::vector<int>> seg2pos;
+      // is mapped to its positions (which can be more than one in all of the open scores)
+      std::map<std::vector<std::set<int>>, std::set<pair<std::string, int>>> seg2pos;
       std::vector<std::set<int>> curr_seg;
       struct timespec ts_last_midi;
 
-      void hash(EventMap::const_iterator it, EventMap::const_iterator end);
+      void hash(const std::string &fname, EventMap::const_iterator it, EventMap::const_iterator end);
       std::set<int> getChordAt(EventMap::const_iterator & it, EventMap::const_iterator end);
 
    private slots:

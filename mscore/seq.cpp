@@ -30,6 +30,7 @@
 #include "libmscore/note.h"
 #include "libmscore/chord.h"
 #include "libmscore/tempo.h"
+#include "scoretab.h"
 #include "scoreview.h"
 #include "playpanel.h"
 #include "libmscore/staff.h"
@@ -340,7 +341,7 @@ void Seq::start()
             }
       _driver->startTransport();
       if (mscore->tutorEnabled() && mscore->tutorAutoSync())
-            hash(events.cbegin(), events.cend());
+        hash(cs->fileInfo()->absoluteFilePath().toStdString(), events.cbegin(), events.cend());
       }
 
 //---------------------------------------------------------
@@ -750,8 +751,7 @@ std::set<int> Seq::getChordAt(EventMap::const_iterator & it, EventMap::const_ite
 }
 
 const int MIN_SEG_LEN = 4;
-void Seq::hash(EventMap::const_iterator it, EventMap::const_iterator end) {
-  seg2pos.clear();
+  void Seq::hash(const std::string &fname, EventMap::const_iterator it, EventMap::const_iterator end) {
   qDebug("HASH - begin");
   while (it != end) {
     std::set<int> chord = getChordAt(it, end);
@@ -774,7 +774,7 @@ void Seq::hash(EventMap::const_iterator it, EventMap::const_iterator end) {
     if (seg.size() < MIN_SEG_LEN)
       return;
     qDebug("seg2pos: adding %d to mapping for: %s", it2->first, seg2str(seg).c_str());
-    seg2pos[seg].push_back(it2->first);
+    seg2pos[seg].insert(std::make_pair(fname, it2->first));
     ++it;
   }
 }
@@ -1530,8 +1530,31 @@ void Seq::midiNoteReceived(int channel, int pitch, int velo) {
         auto seg_it = seg2pos.find(curr_seg);
         if (seg_it != seg2pos.cend()) {
           // match found, pick first one in vector! TODO: choose closest?
-          qDebug("MATCH FOUND!");
-          int newPos = seg_it->second.front();
+          std::string fname = seg_it->second.begin()->first;
+          qDebug("MATCH FOUND in file: %s", fname.c_str());
+          QAction *playAction = getAction("play");
+          if (cs->fileInfo()->absoluteFilePath().toStdString() == fname) {
+            // match found in same file
+            if (!playAction->isChecked())
+              playAction->trigger();
+          } else {
+            // match found in different file
+            // mscore->openScore(QString::fromStdString(fname));
+            ScoreTab *tab = mscore->getTab1();
+            for (int idx = 0; idx < tab->count(); ++idx) {
+              if (tab->view(idx)->score()->masterScore()->fileInfo()->absoluteFilePath().toStdString() == fname) {
+                if (playAction->isChecked()) {
+                  playAction->setChecked(false);
+                  playAction->triggered(false);
+                  qApp->processEvents();
+                }
+                mscore->setCurrentScoreView(idx);
+                playAction->trigger();
+                qApp->processEvents();
+              }
+            }
+          }
+          int newPos = seg_it->second.begin()->second;
           qDebug("Seeking on mistake to pos: %d", newPos);
           tutor()->clearKeys();
           seek(newPos);

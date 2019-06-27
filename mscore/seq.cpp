@@ -1528,8 +1528,8 @@ void Seq::midiNoteReceived(int channel, int pitch, int velo) {
       if (curr_seg.size() >= MIN_SEG_LEN) {
         qDebug("Made sufficient mistakes to trigger a look-up of: %s", seg_s.c_str());
         auto seg_it = seg2pos.find(curr_seg);
-        if (seg_it != seg2pos.cend()) {
-          // match found, pick first one in vector! TODO: choose closest?
+        if (seg_it != seg2pos.cend() && seg_it->second.size() == 1) {
+          // non-ambiguous match found, pick the only element in vector! TODO: choose closest?
           std::string fname = seg_it->second.begin()->first;
           qDebug("MATCH FOUND in file: %s", fname.c_str());
           QAction *playAction = getAction("play");

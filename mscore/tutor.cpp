@@ -268,7 +268,7 @@ void Tutor::setTutorLight(int pitch, int velo, int channel, int future) {
   assert(!mtx.try_lock());
   if (checkSerial()) {
     int r, g, b;
-    if (channel == -1) {
+    if (channel < 0) {
       r = colors[0][0];
       g = colors[0][1];
       b = colors[0][2];
@@ -316,6 +316,20 @@ void Tutor::setTutorLightPressed(int pitch) {
   }
 }
 
+void Tutor::setOrClearMistake(int pitch, int velo) {
+  pitch &= 255;
+  tnote & n = notes[pitch];
+  std::lock_guard<std::mutex> lock(mtx);
+  if (velo > 0) {
+    setTutorLight(pitch, velo, -1, 0);
+  } else {
+    if (n.velo > 0)
+      setTutorLight(pitch, velo, n.channel, n.future);
+    else
+      clearTutorLight(pitch);
+  }
+}
+
 void Tutor::addKey(int pitch, int velo, int channel, int future) {
   struct timespec prev = (struct timespec) {0, 0};
   if (velo == 0) {
@@ -328,11 +342,6 @@ void Tutor::addKey(int pitch, int velo, int channel, int future) {
   if (velo == n.velo && channel == n.channel && future == n.future)
     return;
   qDebug("addKey(): p=%d, v=%d, c=%d, f=%d", pitch, velo, channel, future);
-  if (channel == -1) {
-    setTutorLight(pitch, velo, channel, 0);
-    n.velo = -2;
-    return;
-  }
   if (n.velo != -1 && n.velo != -2) {
     if (future == 0 && n.future > 0) {
       ++num_curr_events;

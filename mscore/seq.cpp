@@ -1591,8 +1591,8 @@ void Seq::midiNoteReceived(int channel, int pitch, int velo) {
       }
     }
   } else if (ptp && ptp->tutorMistakes() && future == -1) {
-    // highlight mistake
-    tutor()->addKey(pitch, velo, -1);
+    // highlight mistake (or clear it, if velo == 0)
+    tutor()->setOrClearMistake(pitch, velo);
   }
 }
 

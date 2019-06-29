@@ -76,7 +76,7 @@ class Tutor {
       std::string getSerialDevice() const;
       void setLitUntilRelease(bool val) { lit_until_release = val; }
 
-      // channel=-1 means add mistaken lighted key
+      void setOrClearMistake(int pitch, int velo);
       void addKey(int pitch, int velo, int channel, int future = 0);
       void clearKey(int pitch, bool mark = false);
       void clearKeys(int channel = -1);

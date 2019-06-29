@@ -774,7 +774,7 @@ const int MIN_SEG_LEN = 4;
     if (seg.size() < MIN_SEG_LEN)
       return;
     qDebug("seg2pos: adding %d to mapping for: %s", it2->first, seg2str(seg).c_str());
-    seg2pos[seg].insert(std::make_pair(fname, it2->first));
+    seg2pos[seg][fname].push_back(it2->first);
     ++it;
   }
 }
@@ -1528,12 +1528,24 @@ void Seq::midiNoteReceived(int channel, int pitch, int velo) {
       if (curr_seg.size() >= MIN_SEG_LEN) {
         qDebug("Made sufficient mistakes to trigger a look-up of: %s", seg_s.c_str());
         auto seg_it = seg2pos.find(curr_seg);
-        if (seg_it != seg2pos.cend() && seg_it->second.size() == 1) {
-          // non-ambiguous match found, pick the only element in vector! TODO: choose closest?
-          std::string fname = seg_it->second.begin()->first;
-          qDebug("MATCH FOUND in file: %s", fname.c_str());
+        if (seg_it != seg2pos.cend()) {
+          // match found, we need to check which element to pick in map, if it has more than 1
+          std::string fname;
+          int new_pos = -1;
+          std::string curr_fname = cs->fileInfo()->absoluteFilePath().toStdString();
+          auto positions_it = seg_it->second.find(curr_fname);
+          if (positions_it != seg_it->second.end()) {
+            // match found in current score, pick 1st one
+            fname = curr_fname;
+            new_pos = positions_it->second.front();
+          } else {
+            // current score does not match, pick 1st one that matches
+            fname = seg_it->second.begin()->first;
+            new_pos = seg_it->second.begin()->second.front();
+          }
+          qDebug("MATCH FOUND in file: %s at pos: %d", fname.c_str(), new_pos);
           QAction *playAction = getAction("play");
-          if (cs->fileInfo()->absoluteFilePath().toStdString() == fname) {
+          if (curr_fname == fname) {
             // match found in same file
             if (!playAction->isChecked())
               playAction->trigger();
@@ -1554,10 +1566,9 @@ void Seq::midiNoteReceived(int channel, int pitch, int velo) {
               }
             }
           }
-          int newPos = seg_it->second.begin()->second;
-          qDebug("Seeking on mistake to pos: %d", newPos);
+          qDebug("Seeking on mistake to pos: %d", new_pos);
           tutor()->clearKeys();
-          seek(newPos);
+          seek(new_pos);
           curr_seg.clear();
           return;
         }

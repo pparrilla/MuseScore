@@ -180,7 +180,7 @@ class Seq : public QObject, public Sequencer {
 
       // a score segment, represented as a vector of sets of integers (NOTE_ON note pitches),
       // is mapped to its positions (which can be more than one in all of the open scores)
-      std::map<std::vector<std::set<int>>, std::set<pair<std::string, int>>> seg2pos;
+      std::map<std::vector<std::set<int>>, std::map<std::string, std::vector<int>>> seg2pos;
       std::vector<std::set<int>> curr_seg;
       struct timespec ts_last_midi;
 

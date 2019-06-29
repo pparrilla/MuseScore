@@ -713,7 +713,7 @@ void Seq::tutorFutureEvents(EventMap::const_iterator it, EventMap::const_iterato
     ++it;
   }
   clock_gettime(CLOCK_REALTIME, &ts_end);
-  //qDebug("elapsed: %ld us\n", (ts_end.tv_sec - ts_beg.tv_sec) * 1000000 + (ts_end.tv_nsec - ts_beg.tv_nsec) / 1000);
+  //qDebug("elapsed: %ld us\n", timespec_sub_us(&ts_end, &ts_beg));
 }
 
 static std::string chord2str(std::set<int> const & chord) {
@@ -1515,7 +1515,7 @@ void Seq::midiNoteReceived(int channel, int pitch, int velo) {
     // update curr_seg as a moving window of the MIN_SEG_LEN last pressed chords
     struct timespec ts;
     clock_gettime(CLOCK_MONOTONIC_RAW, &ts);
-    if (curr_seg.empty() || (ts.tv_sec - ts_last_midi.tv_sec) * 1000 + (ts.tv_nsec - ts_last_midi.tv_nsec) / 1000000 >= 50)
+    if (curr_seg.empty() || timespec_sub_us(&ts, &ts_last_midi) >= 50000)
       curr_seg.push_back(std::set<int>());
     ts_last_midi = ts;
     curr_seg.back().insert(pitch);

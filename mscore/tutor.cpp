@@ -353,8 +353,7 @@ void Tutor::addKey(int pitch, int velo, int channel, int future) {
   if (prev.tv_sec != 0 || prev.tv_nsec != 0) {
     struct timespec now;
     clock_gettime(CLOCK_MONOTONIC, &now);
-    unsigned long diff_us =
-      (now.tv_sec - prev.tv_sec) * 1000000 + (now.tv_nsec - prev.tv_nsec) / 1000;
+    unsigned long diff_us = timespec_sub_us(&now, &prev);
     if (diff_us < 100000) {
       //printf("diff_us: %lu, now: %ld,%ld, prev: %ld,%ld\n", diff_us, now.tv_sec,now.tv_nsec, prev.tv_sec,prev.tv_nsec);
       clearTutorLight(pitch);

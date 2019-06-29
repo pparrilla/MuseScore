@@ -31,6 +31,10 @@ typedef struct {
   struct timespec ts;	// last press abs time
 } tnote;
 
+static inline long timespec_sub_us(struct timespec *now, struct timespec *prev) {
+  return (now->tv_sec - prev->tv_sec) * 1000000 + (now->tv_nsec - prev->tv_nsec) / 1000;
+}
+
 // Arduino-assisted NeoPixel-based PianoTutor helper class
 class Tutor {
       std::string serialDevice;

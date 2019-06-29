@@ -432,6 +432,7 @@ void Tutor::setColor(int idx, int r, int g, int b) {
 // ms to wait before flushing on keyPressed()
 static int FLUSH_TOUT=5;
 
+// returns: 0 (expected key press), 1 (future key press), -1 (key release or unexpected key press)
 int Tutor::keyPressed(int pitch, int velo) {
   if (velo == 0)
     return -1;

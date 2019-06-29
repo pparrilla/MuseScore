@@ -80,6 +80,7 @@ PianoTutorPanel::PianoTutorPanel(QWidget* parent)
 	serialDevice->lineEdit()->setEnabled(true);
 
       wizard_ = 0;
+      tutorEnabledCB->setChecked(true);
       }
 
 PianoTutorPanel::~PianoTutorPanel()

@@ -1,3 +1,18 @@
+musescore (3.0dev-pt0.6) UNRELEASED; urgency=medium
+
+  * Piano Tutor: rework of mistake highlight code, now future keys pressed by mistake are handled properly on NOTE_OFF
+  * Piano Tutor: auto-enable tutor when piano tutor panel is shown
+  * Piano Tutor: avoid repeatition of timespec subtraction code with timespec_sub_us()
+  * Piano Tutor: documenting tutor::keyPressed() return values
+  * Piano Tutor: AutoSync now maps chord sequences to maps mapping a file name to a vector of positions
+  * Piano Tutor: AutoSync now kicks in only if the identified sequence unambiguously corresponds to a unique position
+  * Piano Tutor: now AutoSync can dynamically switch among open scores (on multiple consecutive mistakes), alongside auto-starting playback mode when stopped.
+  * Piano Tutor: visual highlight of mistaken key presses (#11), in red for now
+  * Piano Tutor: removing obsolete TODO in comment
+  * Piano Tutor: replacing heuristic 10ms wait after last flush, with a full ping-pong before write() (#7)
+  * Piano Tutor: pitchToLED() improvement
+  * Piano Tutor: renaming setC4Pitch() to tuneC4Pitch(), to clarify w.r.t. setC4Light()
+
 musescore (3.0dev-pt0.5) UNRELEASED; urgency=medium
 
   * Piano Tutor: auto-sync GUI & persistent preferences options

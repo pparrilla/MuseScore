@@ -4,7 +4,7 @@
 export DEB_BUILD_MAINT_OPTIONS := hardening=+all
 export DEB_LDFLAGS_MAINT_APPEND := -Wl,--as-needed
 
-SUFF=-pt0.5
+SUFF=-pt0.6
 
 %:
 	dh $@ --buildsystem=cmake --parallel

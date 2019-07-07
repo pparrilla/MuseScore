@@ -25,6 +25,7 @@
 #include <time.h>
 #include <assert.h>
 #include <functional>
+#include <sys/select.h>
 
 #include <QTimer>
 
@@ -88,7 +89,26 @@ ssize_t READ(int fd, void *buf, size_t count) {
   }
   return len;
 #else
-  return read(fd, buf, count);
+  fd_set set;
+  struct timeval timeout;
+  FD_ZERO(&set); /* clear the set */
+  FD_SET(fd, &set); /* add our file descriptor to the set */
+  timeout.tv_sec = 0;
+  timeout.tv_usec = 10000; // 10ms
+  int rv = select(fd + 1, &set, NULL, NULL, &timeout);
+  if (rv == -1) {
+    perror("select() failed: ");
+    return -1;  // error on select()
+  } else if (rv == 0) {
+    qDebug("select() timeout!");
+    return 0;  // nothing moved on fd within timeout
+  } else {
+    assert(FD_ISSET(fd, &set));
+    rv = read(fd, buf, count);
+    if (rv < 0)
+      perror("read() failed: ");
+    return rv;
+  }
 #endif
 }
 
@@ -133,12 +153,15 @@ bool Tutor::checkSerial() {
     char ch;
     int len = READ(tutorSerial, &ch, 1);
     if (len < 0) {
-      perror("read() failed: ");
+      CLOSE(tutorSerial);
+      tutorSerial = INVALID_SERIAL;
       return false;
     }
     to_read -= len;
   }
   MILLI_SLEEP(10);
+  needs_flush = true;
+  flushNoLock();
   return true;
 }
 #else
@@ -179,12 +202,15 @@ bool Tutor::checkSerial() {
     char ch;
     int len = READ(tutorSerial, &ch, 1);
     if (len < 0) {
-      perror("read() failed: ");
+      CLOSE(tutorSerial);
+      tutorSerial = INVALID_SERIAL;
       return false;
     }
     to_read -= len;
   }
   MILLI_SLEEP(10);
+  needs_flush = true;
+  flushNoLock();
   return true;
 }
 #endif
@@ -202,11 +228,19 @@ void Tutor::safe_write(char *data, int len, bool flush_op) {
   char pong_char = '.';
   int bytes_read;
   do {
-    WRITE(tutorSerial, (void*)ping_str, 2);
+    if (WRITE(tutorSerial, (void*)ping_str, 2) < 0) {
+      CLOSE(tutorSerial);
+      tutorSerial = INVALID_SERIAL;
+      return;
+    }
     bytes_read = READ(tutorSerial, &pong_char, 1);
-    if (pong_char != 'P')
-      continue;
-  } while (bytes_read != 1);
+    qDebug("read %d bytes: %c", bytes_read, pong_char);
+    if (bytes_read < 0) {
+      CLOSE(tutorSerial);
+      tutorSerial = INVALID_SERIAL;
+      return;
+    }
+  } while (bytes_read != 1 || pong_char != 'P');
 
   // useful to debug/printf() what's about to be written (beware of buffer overruns)
   int retry = 2;

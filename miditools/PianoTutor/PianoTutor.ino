@@ -80,7 +80,7 @@ int readMetronome() {
   }
 }
 
-void changePlayStatus() {
+void startStop() {
   // Mandar elementos al serial
   play = !play;
   Serial.write('S');
@@ -92,7 +92,7 @@ void loop() {
 
   readMetronome();
   if (buttonPlay.uniquePress())
-    changePlayStatus();
+    startStop();
 
   int k, r, g, b;
   int avail = Serial.available();

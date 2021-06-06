@@ -12,7 +12,7 @@ git clone -b piano-tutor https://github.com/pparrilla/MuseScore.git
 Now you need to load the .ino file located in MuseScore/miditools/PianoTutor/PianoTutor.ino in your Arduino.
 
 If you want to use my project, you need an Arduino Leonardo, or another 32u4 board, that can use Keyboard.h library. It's
-located in MuseScore/miditools/PianoTutor/PianoTutorButtons.
+located in MuseScore/miditools/PianoTutor/PianoTutorButtons. And for compile, you need to copy ButtonSMP to your Arduino Library.
 
 To check if it's working, you can use Serial Monitor an select 115200 as serial port. If it show a message like "Piano Tutor..."
 it's okay.

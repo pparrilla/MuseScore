@@ -1,8 +1,8 @@
 /* Piano Tutor - A piano tutoring/learning system based on MuseScore and LEDs.
  *
- * Copyright (C) 2017  Tommaso Cucinotta
+ * Copyright (C) 2021  Pedro Parrilla
  *
- * This progra, is free software; you can redistribute it and/or
+ * This program, is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public License
  * as published by the Free Software Foundation; either version 2 of
  * the License, or (at your option) any later version.
@@ -107,26 +107,11 @@ void buttonAction(char action) {
   delay(100);
   Keyboard.releaseAll();
   Keyboard.end();
-    
-  // Mandar elementos al serial
-//  Keyboard.begin();
-//  Keyboard.write(keys[0]);
-//  delay(100);
-//  Keyboard.write(keys[1]);
-//  delay(100);
-//  Keyboard.end();
-  // Serial.print("Play: ");
-  // Serial.println(play);
-//  Serial.end();
-//  Serial.begin(9600);
-//  Serial.write('S');
-//  Serial.end();
-//  Serial.begin(11520);
 }
 
 void loop() {
 
-  readMetronome();
+  // readMetronome();
   if (buttonPlay.uniquePress())
     buttonAction('P');
   if (buttonInit.uniquePress())
@@ -144,15 +129,9 @@ void loop() {
   if (avail == 0)
     return;
   char ch = Serial.peek();
-//  Serial.print("ch: ");
-//  Serial.print(ch);
-//  Serial.print(", avail: ");
-//  Serial.println(avail);
+
   if (ch != 'k' && ch != 'K' && ch != 'h' && ch != 'H' && ch != 'c' && ch != 'C' && ch != 'F' && ch != 'P') {
-//    if (ch != '\n') {
-//      Serial.print("Ign: ");
-//      Serial.println(ch);
-//    }
+
     Serial.read(); // discard non-recognized command
     return;
   }
@@ -172,18 +151,12 @@ void loop() {
   } else if ((ch == 'h' || ch == 'H') && avail >= 9) {
     Serial.read(); // skip 'h'
     Serial.readBytes(buf, 8);
+
     k = (char2hex(buf[0]) << 4) | char2hex(buf[1]);
     r = (char2hex(buf[2]) << 4) | char2hex(buf[3]);
     g = (char2hex(buf[4]) << 4) | char2hex(buf[5]);
     b = (char2hex(buf[6]) << 4) | char2hex(buf[7]);
-//    Serial.print("cmd: k");
-//    Serial.print(k);
-//    Serial.print('r');
-//    Serial.print(r);
-//    Serial.print('g');
-//    Serial.print(g);
-//    Serial.print('b');
-//    Serial.println(b);
+
     pixels.setPixelColor(k, r, g, b);
     if (ch == 'h') {
       pixels.show();

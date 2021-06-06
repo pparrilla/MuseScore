@@ -11,10 +11,15 @@ git clone -b piano-tutor https://github.com/pparrilla/MuseScore.git
 
 Now you need to load the .ino file located in MuseScore/miditools/PianoTutor/PianoTutor.ino in your Arduino.
 
+If you want to use my project, you need an Arduino Leonardo, or another 32u4 board, that can use Keyboard.h library. It's
+located in MuseScore/miditools/PianoTutor/PianoTutorButtons.
+
 To check if it's working, you can use Serial Monitor an select 115200 as serial port. If it show a message like "Piano Tutor..."
 it's okay.
 
-For test the light strip, you can write `h10101010` in the serial Monitor, and the led will be on. For turn off just write `h10000000`
+For test the light strip, you can write `h10101010` in the serial Monitor, and the led will be on. For turn off just write `h10000000`.
+
+You must to close the Arduino program because if you dont, MuseScore couldn't read and write from the Serial.
 
 ## Install
 

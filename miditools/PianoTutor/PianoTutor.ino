@@ -23,43 +23,32 @@
   #include <avr/power.h>
 #endif
 
-#include <ButtonSMP.h>
-
-// Pin de control de la tira led
+// Which pin on the Arduino is connected to the NeoPixels?
+// On a Trinket or Gemma we suggest changing this to 1
 #define PIN            7
 
-// Numero de Pines enchufados a la tira led
+// How many NeoPixels are attached to the Arduino?
 #define NUMPIXELS      144
 
-// Creamos el objeto de la clase NeoPixel
-
+// When we setup the NeoPixel library, we tell it how many pixels, and which pin to use to send signals.
+// Note that for older NeoPixel strips you might need to change the third parameter--see the strandtest
+// example for more information on possible values.
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
 uint32_t col_white, col_black, col_off;
-
-
-// Metronomo y control de reproduccion
-
-const int metronomePin = A0;
-int metronomeValue = 0;
-Button buttonPlay = Button(2, PULLUP);
-bool play = false;
-
 
 void setup() {
   col_white = pixels.Color(50, 50, 50);
   col_black = pixels.Color(10, 10, 50);
   col_off = pixels.Color(0, 0, 0);
-  pixels.begin();
+  pixels.begin(); // This initializes the NeoPixel library.
   pixels.show();
-  pinMode(metronomePin, INPUT);
-
 
   Serial.begin(115200);
   Serial.println("PianoTutor v0.2 is ready!");
 }
 
-char buf[9];  // Codificado en HEX, utilizando el formato key+rgb+sep: kkrrggbbs
+char buf[9];  // hex-encoded key+rgb+sep, format: kkrrggbbs
 
 int char2hex(char c) {
   if (c >= '0' && c <= '9')
@@ -70,30 +59,7 @@ int char2hex(char c) {
     return 10 + c - 'A';
 }
 
-int readMetronome() {
-  int value = analogRead(metronomePin);
-  value = map(value, 0, 1023, 20, 250);
-  if (metronomeValue <= value-2 || metronomeValue >= value+2) {
-    metronomeValue = value;
-    // Serial.print("Metronome: ");
-    // Serial.println(metronomeValue);
-  }
-}
-
-void startStop() {
-  // Mandar elementos al serial
-  play = !play;
-  Serial.write('S');
-  // Serial.print("Play: ");
-  // Serial.println(play);
-}
-
 void loop() {
-
-  readMetronome();
-  if (buttonPlay.uniquePress())
-    startStop();
-
   int k, r, g, b;
   int avail = Serial.available();
   if (avail == 0)

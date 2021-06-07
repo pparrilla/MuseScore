@@ -25,7 +25,7 @@
 
 #include <ButtonSMP.h>
 
-#include <Keyboard.h>
+#include <HID-Project.h>
 
 // Pin de control de la tira led
 #define PIN            7
@@ -42,8 +42,9 @@ uint32_t col_white, col_black, col_off;
 
 // Metronomo y control de reproduccion
 
-const int metronomePin = A0;
-int metronomeValue = 0;
+const int volumePin = A0;
+int volumeValue = 10;
+int t = 0;
 Button buttonPlay = Button(2, PULLUP);
 Button buttonInit = Button(3, PULLUP);
 Button buttonSetLoopIntervals = Button(4, PULLUP);
@@ -58,7 +59,10 @@ void setup() {
   col_off = pixels.Color(0, 0, 0);
   pixels.begin();
   pixels.show();
-  pinMode(metronomePin, INPUT);
+  pinMode(volumePin, INPUT);
+  // For control volume
+  Consumer.begin();
+  Keyboard.begin();
 
 
   Serial.begin(115200);
@@ -77,18 +81,19 @@ int char2hex(char c) {
     return 10 + c - 'A';
 }
 
-int readMetronome() {
-  int value = analogRead(metronomePin);
-  value = map(value, 0, 1023, 20, 250);
-  if (metronomeValue <= value-2 || metronomeValue >= value+2) {
-    metronomeValue = value;
-    // Serial.print("Metronome: ");
-    // Serial.println(metronomeValue);
+int readVolume() {
+  int value = analogRead(volumePin);
+  value = map(value, 0, 1023, 0, 20);
+  if (volumeValue < value) {
+    Consumer.write(MEDIA_VOL_UP);
+    volumeValue = value;
+  } else if (volumeValue > value) {
+    volumeValue = value;
+    Consumer.write(MEDIA_VOL_DOWN);
   }
 }
 
 void buttonAction(char action) {
-  Keyboard.begin();
   if (action == 'P')
     Keyboard.press(' ');
   else if (action == 'R'){
@@ -107,12 +112,12 @@ void buttonAction(char action) {
   }
   delay(100);
   Keyboard.releaseAll();
-  Keyboard.end();
 }
 
 void loop() {
-
-  // readMetronome();
+  if (millis() + 5 > t){
+    readVolume();
+  }
   if (buttonPlay.uniquePress())
     buttonAction('P');
   if (buttonInit.uniquePress())

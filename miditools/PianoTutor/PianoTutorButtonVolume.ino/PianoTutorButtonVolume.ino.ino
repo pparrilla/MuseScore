@@ -27,6 +27,7 @@
 
 #include <HID-Project.h>
 
+#include <EEPROM.h>
 // Pin de control de la tira led
 #define PIN            7
 
@@ -86,10 +87,10 @@ int readVolume() {
   value = map(value, 0, 1023, 0, 20);
   if (volumeValue < value) {
     Consumer.write(MEDIA_VOL_UP);
-    volumeValue = value;
+    EEPROM.update(volumeValue, value);
   } else if (volumeValue > value) {
-    volumeValue = value;
     Consumer.write(MEDIA_VOL_DOWN);
+    EEPROM.update(volumeValue, value);
   }
 }
 

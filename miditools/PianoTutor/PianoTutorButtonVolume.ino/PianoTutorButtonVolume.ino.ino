@@ -50,6 +50,7 @@ Button buttonPlay = Button(2, PULLUP);
 Button buttonInit = Button(3, PULLUP);
 Button buttonSetLoopIntervals = Button(4, PULLUP);
 Button buttonLoop = Button(5, PULLUP);
+int addressEEPROM = 0;
 
 bool posLoop = true;
 
@@ -87,10 +88,12 @@ int readVolume() {
   value = map(value, 0, 1023, 0, 20);
   if (volumeValue < value) {
     Consumer.write(MEDIA_VOL_UP);
-    EEPROM.update(volumeValue, value);
+    volumeValue = value;
+    EEPROM.update(addressEEPROM, value);
   } else if (volumeValue > value) {
     Consumer.write(MEDIA_VOL_DOWN);
-    EEPROM.update(volumeValue, value);
+    volumeValue = value;
+    EEPROM.update(addressEEPROM, value);
   }
 }
 
